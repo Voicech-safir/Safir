@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5170ff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Safir">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Safir</title>
+<style>
+:root{--bg:#090e1d;--p:#0d1428;--c:#131b34;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--t:#e9eefb;--m:#8d99b5;
+--a:#2986b5;--a1:#43cfe0;--a2:#2b7fd8;--a3:#2a54c8;--grad:linear-gradient(135deg,var(--a1),var(--a2) 52%,var(--a3));--g:#32d583;--r:#f0546a;--rad:14px}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;height:100vh;height:100dvh;display:flex;color:var(--t);font:14px/1.45 Inter,"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+background:radial-gradient(900px 520px at 88% -12%,#1b3f8a40,transparent 70%),radial-gradient(760px 520px at -8% 108%,#0e7a9a30,transparent 70%),var(--bg)}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:#2a3558;border-radius:8px;border:2px solid transparent;background-clip:content-box}::-webkit-scrollbar-thumb:hover{background:#3a4875;background-clip:content-box}
+button,input,textarea{font:inherit;color:inherit;border:0;outline:0}
+input,textarea{background:#0b1226;border:1px solid var(--line);border-radius:11px;padding:10px 13px;min-width:0;transition:border-color .15s,box-shadow .15s}
+input::placeholder,textarea::placeholder{color:#6a7696}
+input:focus,textarea:focus{border-color:#2b7fd8;box-shadow:0 0 0 3px #2b7fd833}
+button{cursor:pointer;border-radius:11px;padding:10px 16px;font-weight:600;background:var(--grad);color:#fff;transition:transform .12s,filter .15s,background .15s,box-shadow .15s}
+button:hover{filter:brightness(1.1)}button:active{transform:scale(.97)}button:focus-visible{box-shadow:0 0 0 3px #43cfe055}
+button.x,button.g,button.r{background:rgba(255,255,255,.07);color:var(--t);box-shadow:inset 0 0 0 1px var(--line)}
+[hidden]{display:none!important}
+a{color:#7fd0ff}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.row{display:flex;gap:8px;align-items:center}
+.m{color:var(--m);font-size:12px}.m.live{color:var(--g)}
+.hint{color:var(--m);font-size:12px;padding:0 4px;line-height:1.5}.center{text-align:center}
+.note{color:var(--m);font-size:12px;line-height:1.5}
+.btn{width:100%;padding:11px 16px}.btn.sec{background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px var(--line2)}
+.lnk{background:none;box-shadow:none;color:#7fd0ff;padding:4px;font-size:12.5px;font-weight:500}.lnk:hover{background:none;text-decoration:underline}
+.ghost{background:rgba(255,255,255,.06);color:var(--t);box-shadow:inset 0 0 0 1px var(--line)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;font-size:12.5px;white-space:nowrap}
+.pill .ic{width:15px;height:15px}.pill.alt{background:rgba(255,255,255,.08);color:var(--t)}
+.ibtn{display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border-radius:10px;background:transparent;color:var(--m);box-shadow:none;flex:none}
+.ibtn:hover{background:rgba(255,255,255,.08);color:var(--t);filter:none}.ibtn.ok{color:var(--g)}
+.avt{--s:40px;position:relative;width:var(--s);height:var(--s);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:calc(var(--s)*.42);flex:none;color:#fff;box-shadow:inset 0 0 0 1px #ffffff22;background:#2b7fd8}
+.avt img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.avt .pd{position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:#59627f;border:2.5px solid #0e1529}.avt.on .pd{background:var(--g)}
+
+/* giriş */
+#setup{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;overflow:auto;
+background:radial-gradient(800px 500px at 80% 0%,#2b54c855,transparent 70%),radial-gradient(700px 500px at 0% 100%,#0e8aa844,transparent 70%),var(--bg)}
+.lc{width:min(410px,100%);display:flex;flex-direction:column;gap:14px;padding:30px 28px 26px;border-radius:24px;background:linear-gradient(160deg,#18214ab8,#0f1630e0);border:1px solid var(--line2);box-shadow:0 30px 90px #000a;backdrop-filter:blur(18px);margin:auto}
+.lhead{text-align:center}.lglogo{width:84px;height:84px;border-radius:22px;box-shadow:0 10px 40px #2b7fd877;margin-bottom:10px}
+.lhead h1{margin:0;font-size:28px;letter-spacing:.5px}.lhead p{margin:4px 0 0;color:var(--m)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:#0b1226;border:1px solid var(--line);border-radius:14px}
+.seg button{background:transparent;color:var(--m);box-shadow:none;padding:9px}.seg button.on{background:var(--grad);color:#fff;box-shadow:0 4px 16px #2b7fd855}
+#gblock{display:flex;flex-direction:column;gap:10px}
+#gbtn{display:flex;justify-content:center;min-height:44px}
+#gset{display:flex;flex-direction:column;gap:8px}
+.or{display:flex;align-items:center;gap:12px;color:var(--m);font-size:12px}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line2)}
+#emsec,.form{display:flex;flex-direction:column;gap:10px}
+#emsec:has(#emver:not([hidden])) #emnote{text-align:center;font-size:13px;color:var(--t);line-height:1.6}
+.ver{text-align:center}.vic{width:56px;height:56px;margin:0 auto;border-radius:18px;display:grid;place-items:center;background:var(--grad)}.vic .ic{width:26px;height:26px;color:#fff}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* kenar çubuğu */
+#side{width:312px;flex:none;display:flex;flex-direction:column;gap:6px;padding:16px 14px;overflow:auto;background:linear-gradient(180deg,#0e1529f2,#0a1122f2);border-right:1px solid var(--line);backdrop-filter:blur(14px);z-index:30}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:.3px;padding:2px 4px 10px}
+.brand img{width:34px;height:34px;border-radius:10px;box-shadow:0 4px 18px #2b7fd855}
+.me{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;background:linear-gradient(160deg,#1a2548,#131b34);border:1px solid var(--line);border-radius:var(--rad);padding:12px}
+.me .pill{grid-column:1/-1;justify-content:center;margin-top:8px}
+.mi{display:flex;flex-direction:column;min-width:0}.mi b{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.codebar{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:8px;padding:5px 5px 5px 12px;background:#0b1226;border-radius:10px;border:1px dashed var(--line2)}
+.codebar .m{white-space:nowrap}.codebar b{flex:1;text-align:right;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;letter-spacing:.6px;color:#9fe4ff}
+.sh{display:flex;align-items:center;gap:8px;margin:16px 4px 6px;font-size:11px;letter-spacing:.9px;text-transform:uppercase;color:var(--m);font-weight:700}
+.cnt{margin-left:auto;font-weight:600;letter-spacing:0;text-transform:none;color:var(--m);font-size:11px}
+.addf{display:flex;gap:6px}.addf input{flex:1}
+#fl,#reqs{display:flex;flex-direction:column;gap:3px}
+.fr{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:12px;transition:background .15s}.fr:hover{background:rgba(255,255,255,.05)}
+.fi{flex:1;min-width:0;display:flex;flex-direction:column}.fi b,.fi .m{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fr .rm{opacity:0;transition:opacity .15s}.fr:hover .rm{opacity:1}
+@media(hover:none){.fr .rm{opacity:1}}
+.empty{padding:16px 12px;text-align:center;color:var(--m);font-size:13px;border:1px dashed var(--line2);border-radius:12px;line-height:1.6}
+.adv-wrap{margin-top:auto;padding-top:14px}
+.adv{border-top:1px solid var(--line);padding:8px 2px 4px;color:var(--m);font-size:12px}.adv summary{cursor:pointer;padding:3px 0}.adv input{width:100%;margin-top:6px}
+#dbg{white-space:pre-wrap;font-size:11px;color:var(--m);max-height:160px;overflow:auto;margin:6px 0}
+
+/* ana alan */
+#main{flex:1;min-width:0;display:flex;flex-direction:column;padding:22px 26px;overflow:auto;gap:14px}
+#mbar{display:none}#scrim{display:none}
+#lobby{margin:auto;width:min(760px,100%);display:flex;flex-direction:column;gap:18px}
+.hero{text-align:center}.hero h1{margin:0 0 6px;font-size:30px;letter-spacing:-.3px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{margin:0;color:var(--m);font-size:15px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rc{display:flex;flex-direction:column;gap:10px;padding:22px;border-radius:18px;background:linear-gradient(160deg,#18214a99,#111933cc);border:1px solid var(--line);box-shadow:0 10px 40px #0006}
+.rc input{margin-top:auto}.rc h3{margin:6px 0 0;font-size:17px;color:var(--t)}.rc p{margin:0 0 4px;color:var(--m);line-height:1.5}
+.ric{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--grad);box-shadow:0 8px 22px #2b7fd855}.ric .ic{width:22px;height:22px;color:#fff}
+.ric.sec{background:rgba(255,255,255,.1);box-shadow:none}
+#inroom{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px}
+.rh{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.rh>div:first-child{flex:1;min-width:0}
+.rh h2{margin:0;font-size:22px;letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.livedot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--g);margin-right:6px;animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 #32d58388}70%,100%{box-shadow:0 0 0 8px #32d58300}}
+.codechip{display:flex;align-items:center;gap:8px;padding:4px 5px 4px 12px;background:#0b1226;border:1px solid var(--line);border-radius:12px}.codechip b{font-family:ui-monospace,Consolas,monospace;letter-spacing:1px;color:#9fe4ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px 12px;border-radius:16px;background:linear-gradient(160deg,#18214a80,#111933aa);border:1px solid var(--line);transition:transform .2s,border-color .2s}
+.tile .av{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-weight:700;color:#fff;box-shadow:inset 0 0 0 1px #ffffff26}
+.tile .tn{font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile.sp{border-color:#32d58388;transform:translateY(-2px)}.tile.sp .av{box-shadow:0 0 0 3px var(--g),0 0 26px #32d58399;animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 5px #32d58366,0 0 34px #32d583aa}}
+.ctl{display:flex;justify-content:center;gap:12px}
+.cb{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:90px;padding:11px 14px;border-radius:16px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px var(--line);font-size:12px;font-weight:600;color:var(--t)}
+.cb .ic{width:22px;height:22px}.cb.off{background:#f0546a26;color:#ff8a9b;box-shadow:inset 0 0 0 1px #f0546a66}.cb.leave{background:var(--r);color:#fff;box-shadow:none}
+
+/* sohbet */
+#chat,#dchat{flex:1;min-height:0;display:flex;flex-direction:column;position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(180deg,#0f1630d9,#0b1124f2);border:1px solid var(--line)}
+.chh{display:flex;align-items:baseline;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}.chh b{font-size:14px}
+#msgs,#dmsgs{flex:1;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:1px}
+.mg{display:flex;gap:12px;padding:2px 10px;border-radius:10px}.mg:hover{background:rgba(255,255,255,.035)}.mg.first{margin-top:10px;padding-top:4px}
+.mav{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;flex:none;font-size:15px;color:#fff;margin-top:2px}
+.mh{font-size:12px;color:var(--m)}.mh b{font-size:14px;color:var(--t)}
+.mb{white-space:pre-wrap;word-break:break-word;line-height:1.5}
+.mb a{color:#7fd8ff;text-decoration:none;border-bottom:1px solid #3bb4ff66;text-shadow:0 0 6px #3bb4ff99,0 0 14px #3bb4ff55;animation:lglow 2.8s ease-in-out infinite}
+.mb a:hover{text-shadow:0 0 8px #bfeaff,0 0 22px #3bb4ff;border-bottom-color:#bfeaff}
+@keyframes lglow{0%,100%{text-shadow:0 0 5px #3bb4ff80,0 0 12px #3bb4ff40}50%{text-shadow:0 0 9px #7fd8ffcc,0 0 22px #3bb4ff80}}
+.mb a.dl{display:inline-block;border:0;background:var(--grad);color:#fff;padding:5px 12px;border-radius:8px;text-shadow:none;animation:none;font-weight:600}
+.big{font-size:30px;line-height:1.25}
+.pv{margin-top:6px}.pv a{border:0;text-shadow:none;animation:none;display:block}
+.pv img{max-width:min(320px,100%);max-height:240px;border-radius:12px;display:block}
+.file{background:#182247;border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin-top:4px;display:inline-flex;gap:12px;align-items:center;max-width:min(400px,100%)}
+.bar{height:4px;background:#2a3558;border-radius:2px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--g)}
+.sys{color:var(--m);font-size:12px;text-align:center;padding:6px 0}
+#typing,#dtyping{padding:0 18px;height:18px;font-size:12px;color:var(--m)}
+.cbar{display:flex;align-items:flex-end;gap:4px;margin:6px 10px 10px;padding:5px;background:#0b1226;border:1px solid var(--line);border-radius:16px;transition:border-color .15s,box-shadow .15s}
+.cbar:focus-within{border-color:#2b7fd8;box-shadow:0 0 0 3px #2b7fd830}
+#ci,#dci{flex:1;resize:none;background:transparent;border:0;padding:9px 8px;max-height:120px;box-shadow:none!important}
+.send{display:grid;place-items:center;width:38px;height:38px;padding:0;border-radius:12px;flex:none}.send .ic{width:18px;height:18px}
+#emo,#demo{position:absolute;left:10px;bottom:66px;width:min(340px,calc(100% - 20px));background:#152046;border:1px solid var(--line2);border-radius:14px;box-shadow:0 12px 36px #000b;z-index:5;padding:8px}
+#etabs,#detabs{display:flex;gap:4px;margin-bottom:6px}#etabs button,#detabs button{background:rgba(255,255,255,.07);padding:4px 10px;font-size:18px;box-shadow:none}#etabs button.on,#detabs button.on{background:var(--grad)}
+#egrid,#degrid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;max-height:200px;overflow:auto}
+.eb{background:none;padding:3px;font-size:22px;border-radius:8px;line-height:1.25;box-shadow:none}.eb:hover{background:rgba(255,255,255,.1);filter:none}
+#dz,#ddz{position:absolute;inset:0;background:#2b7fd8d9;display:grid;place-items:center;font-size:18px;font-weight:700;z-index:6}
+#newmsg,#dnewmsg{position:absolute;left:50%;transform:translateX(-50%);bottom:84px;z-index:4;box-shadow:0 6px 20px #0009}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:80;display:none;gap:12px;align-items:center;max-width:min(92vw,520px);padding:12px 14px 12px 16px;border-radius:14px;background:#182247f2;border:1px solid var(--line2);box-shadow:0 12px 40px #000a;backdrop-filter:blur(12px);animation:rise .22s ease}
+@keyframes rise{from{opacity:0;transform:translate(-50%,10px)}}
+#toast button{padding:6px 12px;font-size:12.5px}
+
+@media(max-width:820px){
+ body{flex-direction:column}
+ #mbar{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--line);background:#0b1124d9;backdrop-filter:blur(10px);flex:none}
+ #mbar .brand{padding:0;font-size:17px;flex:1}
+ #side{position:fixed;left:0;top:0;bottom:0;width:min(86vw,340px);transform:translateX(-105%);transition:transform .25s ease;box-shadow:12px 0 50px #000a}
+ body.sideopen #side{transform:none}
+ body.sideopen #scrim{display:block;position:fixed;inset:0;background:#000a;z-index:25}
+ #main{padding:12px;min-height:0}
+ .cards{grid-template-columns:1fr}
+ .grid{display:flex;overflow-x:auto;gap:6px;padding-bottom:2px;scrollbar-width:none}
+ .tile{flex:none;width:78px;padding:8px 4px;background:none;border-color:transparent}.tile .av{width:46px;height:46px;font-size:19px}.tile .tn{font-size:12px}
+ .chh .m{display:none}.rc{padding:16px}.ric{width:40px;height:40px}
+ .cb{min-width:0;flex:1;flex-direction:row;justify-content:center;gap:8px;padding:10px 6px}.cb .ic{width:19px;height:19px}.ctl{gap:8px}
+ .hero h1{font-size:24px}.rh h2{font-size:19px}
+ #chat,#dchat{min-height:260px}
+ .lc{padding:24px 20px 20px}
+}
+
+#dmv{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px}
+.dmh{display:flex;align-items:center;gap:12px}
+.roombar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:#32d58318;border:1px solid #32d58355;font-size:13px}.roombar span{flex:1}
+.fr.clk{cursor:pointer}.fr.act{background:rgba(43,127,216,.16)}
+.ub{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--r);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;flex:none}
+
+.tile .av,.mav{position:relative;overflow:hidden}.av img,.mav img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#msgs .mb{font-size:var(--cfs,14px)}
+.compact .mg{padding:0 10px}.compact .mg.first{margin-top:6px}.compact .fr{padding:3px 8px}.compact .tile{padding:10px 6px}
+#jreqs{display:flex;flex-direction:column;gap:8px}#jreqs:empty{display:none}
+select{background:#0b1226;border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:var(--t);font:inherit;min-width:0}
+#rmode{width:100%}
+#settings{position:fixed;inset:0;z-index:70;display:flex;background:radial-gradient(900px 520px at 88% -12%,#1b3f8a40,transparent 70%),var(--bg);animation:fadein .15s ease}
+@keyframes fadein{from{opacity:0}}
+#snav{width:290px;flex:none;padding:36px 14px 24px;background:#0a1020;border-right:1px solid var(--line);overflow:auto;display:flex;flex-direction:column;gap:2px}
+.sg{font-size:11px;letter-spacing:.9px;color:var(--m);font-weight:700;padding:14px 12px 6px}
+.sn{display:block;width:100%;text-align:left;background:none;color:var(--m);padding:8px 12px;border-radius:8px;font-weight:600;box-shadow:none}
+.sn:hover{background:rgba(255,255,255,.06);color:var(--t);filter:none}.sn.on{background:rgba(43,127,216,.22);color:#fff}.sn.dg{color:#ff8a9b}
+.ssep{height:1px;background:var(--line);margin:10px 8px}.sver{color:var(--m);font-size:11px;padding:10px 12px}
+#spane{flex:1;min-width:0;overflow:auto;padding:36px 56px 70px;position:relative}
+#spc{max-width:740px}#spc h2{margin:0 0 18px;font-size:22px}
+#sclose{position:fixed;top:28px;right:34px;width:42px;height:42px;border:2px solid var(--line2);border-radius:50%;color:var(--m);flex-direction:column;z-index:2;background:var(--bg)}
+#sclose span{position:absolute;bottom:-18px;font-size:10px;font-weight:700;letter-spacing:.6px}
+.srow{display:flex;gap:18px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line)}
+.srow .tx{flex:1;min-width:0}.srow .tx b{display:block;margin-bottom:2px}.srow .tx .m{line-height:1.5}
+.sh2{margin:26px 0 4px;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--m);font-weight:700}
+.sw{position:relative;width:44px;height:26px;flex:none}.sw input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:1;margin:0;width:100%;height:100%;padding:0}
+.sw i{position:absolute;inset:0;background:#2a3558;border-radius:13px;transition:background .15s}
+.sw i::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw input:checked+i{background:var(--g)}.sw input:checked+i::after{transform:translateX(18px)}
+input[type=range]{accent-color:var(--a2);width:200px;padding:0;border:0;background:none;box-shadow:none}
+.meter{height:8px;border-radius:4px;background:#1b2440;overflow:hidden;width:220px}.meter i{display:block;height:100%;width:0;background:var(--g);transition:width .05s}
+.swt{display:flex;gap:12px;padding:12px 0 6px}.swt button{width:40px;height:40px;border-radius:50%;padding:0;border:3px solid transparent;box-shadow:none}.swt button.on{border-color:#fff}
+.pcard{border-radius:16px;overflow:hidden;background:#111933;border:1px solid var(--line);margin:4px 0 18px}
+.pbanner{height:84px;background:var(--grad)}.pbody{display:flex;align-items:flex-end;gap:14px;padding:0 18px 18px;margin-top:-34px;flex-wrap:wrap}
+.pbody .avt{border:5px solid #111933;box-shadow:none}.pn{flex:1;min-width:0;display:flex;flex-direction:column}.pn b{font-size:20px;overflow:hidden;text-overflow:ellipsis}
+.mono{font-family:ui-monospace,Consolas,monospace;color:#9fe4ff}
+.pgrid{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start}
+.fld{margin-bottom:22px}.fld label{display:block;font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--m);text-transform:uppercase;margin-bottom:8px}
+.dng{background:var(--r)}
+@media(max-width:820px){
+ #settings{flex-direction:column}
+ #snav{width:100%;flex-direction:row;overflow-x:auto;padding:10px 56px 10px 10px;border-right:0;border-bottom:1px solid var(--line);gap:4px;align-items:center}
+ .sn{width:auto;white-space:nowrap}.sg,.ssep,.sver{display:none}
+ #spane{padding:20px 16px 60px}#sclose{top:10px;right:10px;width:36px;height:36px}#sclose span{display:none}
+ .pgrid{grid-template-columns:1fr}.srow{flex-wrap:wrap}input[type=range],.meter{width:100%}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/></symbol>
+<symbol id="i-micoff" viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-hp" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></symbol>
+<symbol id="i-hpoff" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-leave" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></symbol>
+<symbol id="i-clip" viewBox="0 0 24 24"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol>
+<symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-call" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+</defs></svg>
+
+<div id="setup" hidden>
+  <div class="lc">
+    <div class="lhead"><img class="lg lglogo" alt="Safir"><h1>Safir</h1><p>Arkadaşlarınla sesli sohbet</p></div>
+    <div class="seg" id="emtabs" hidden><button id="tabL" class="on" onclick="emTab('l')">Giriş yap</button><button id="tabS" onclick="emTab('s')">Kayıt ol</button></div>
+    <div id="gblock">
+      <div id="gbtn"></div>
+      <div id="gnote" class="note"></div>
+      <div id="gset" hidden>
+        <input id="gid" placeholder="Google istemci kimliği (…apps.googleusercontent.com)">
+        <button onclick="saveGid()">Kaydet</button>
+        <details class="note"><summary style="cursor:pointer">Nasıl alırım? (ücretsiz, bir kere)</summary>
+          <ol style="padding-left:18px;margin:6px 0">
+            <li>console.cloud.google.com adresinde yeni proje aç.</li>
+            <li>Google Auth Platform bölümünde Audience olarak External seç. Test modundaysa arkadaşlarının e-postalarını Test users listesine ekle.</li>
+            <li>Clients bölümünde Create client, tür: Web application.</li>
+            <li>Authorized JavaScript origins kısmına yukarıda yazan sayfa adresini ve http://localhost:47821 adresini ekle.</li>
+            <li>Create'e bas, çıkan Client ID'yi buraya yapıştır.</li>
+          </ol></details>
+      </div>
+      <button id="gchg" class="lnk" hidden onclick="resetGid()">Google kimliğini değiştir</button>
+      <button id="guest" class="ghost" hidden onclick="guest()">Google olmadan dene (geçici)</button>
+    </div>
+    <div id="or" class="or" hidden><span>veya e-posta ile</span></div>
+    <div id="emsec" hidden>
+      <div id="pl" class="form">
+        <input id="lem" type="email" placeholder="E-posta" autocomplete="email">
+        <input id="lpw" type="password" placeholder="Şifre" autocomplete="current-password">
+        <button class="btn" onclick="emLogin()">Giriş yap</button>
+        <button class="lnk" onclick="emReset()">Şifremi unuttum</button>
+      </div>
+      <div id="ps" class="form" hidden>
+        <input id="dn" placeholder="Görünen ad (en çok 16 karakter)" maxlength="16">
+        <input id="sem" type="email" placeholder="E-posta" autocomplete="email">
+        <input id="spw" type="password" placeholder="Şifre (en az 6 karakter)" autocomplete="new-password">
+        <input id="spw2" type="password" placeholder="Şifre tekrar" autocomplete="new-password">
+        <div class="note">Hesap oluşturarak <a href="gizlilik.html" target="_blank">Gizlilik Politikası</a>'nı kabul etmiş olursun.</div>
+        <button class="btn" onclick="emSignup()">Hesap oluştur</button>
+      </div>
+      <div id="vic" class="vic" hidden><svg class="ic"><use href="#i-mail"/></svg></div>
+      <div id="emnote" class="note"></div>
+      <div id="emver" class="form ver" hidden>
+        <button class="btn" onclick="emCheck()">Doğruladım, devam et</button>
+        <div class="row2"><button class="ghost" onclick="emResend()">Tekrar gönder</button><button class="ghost" onclick="emBack()">Geri</button></div>
+      </div>
+    </div>
+    <details id="fbset" hidden class="note"><summary style="cursor:pointer">E-posta ile kayıt için Firebase ayarı</summary>
+      <div style="margin:6px 0">Firebase konsolunda Project settings, Your apps, Web uygulaması bölümündeki firebaseConfig kodunu aynen yapıştır.</div>
+      <textarea id="fbcfg" rows="5" style="width:100%" placeholder="apiKey, authDomain, projectId ..."></textarea>
+      <button style="margin-top:6px" onclick="saveFb()">Kaydet</button></details>
+  </div>
+</div>
+
+<div id="settings" hidden><div id="snav"></div><div id="spane"><div id="spc"></div><button id="sclose" class="ibtn" title="Kapat (Esc)" onclick="closeSettings()"><svg class="ic"><use href="#i-x"/></svg><span>ESC</span></button></div></div>
+
+<div id="scrim" onclick="sideOpen(false)"></div>
+<aside id="side">
+  <div class="brand"><img class="lg" alt=""><span>Safir</span></div>
+  <div class="me">
+    <div class="avt on" style="--s:46px"><span id="mav"></span><img id="pic" hidden referrerpolicy="no-referrer" alt=""><i class="pd"></i></div>
+    <div class="mi"><b id="me"></b><span class="m" id="st">bağlanıyor…</span></div>
+    <div class="row" style="gap:0"><button class="ibtn" title="Ayarlar" onclick="openSettings()"><svg class="ic"><use href="#i-gear"/></svg></button><button class="ibtn" title="Çıkış yap" onclick="logout()"><svg class="ic"><use href="#i-leave"/></svg></button></div>
+    <button id="inst" class="pill" hidden onclick="ip.prompt();this.hidden=true">Uygulama olarak yükle</button>
+    <div class="codebar"><span class="m">Arkadaş kodun</span><b id="code"></b><button class="ibtn" title="Kodu kopyala" onclick="copy(st.code)"><svg class="ic"><use href="#i-copy"/></svg></button></div>
+  </div>
+  <div class="sh">Arkadaş ekle</div>
+  <div class="addf"><input id="fc" placeholder="Arkadaşının kodu" autocomplete="off"><button class="pill" onclick="addByCode()"><svg class="ic"><use href="#i-plus"/></svg>Ekle</button></div>
+  <div class="hint">İkiniz de çevrim içi olmalısınız. Kabul edince kalıcı olarak listenize eklenir.</div>
+  <div id="reqs"></div>
+  <div class="sh">Arkadaşlar <span class="cnt" id="fcnt"></span></div>
+  <div id="fl"></div>
+  <div class="adv-wrap"><button class="pill alt" style="width:100%;justify-content:center;padding:10px" onclick="openSettings()"><svg class="ic"><use href="#i-gear"/></svg>Ayarlar</button></div>
+</aside>
+
+<main id="main">
+  <header id="mbar"><button class="ibtn" title="Menü" onclick="sideOpen(true)"><svg class="ic"><use href="#i-menu"/></svg></button><div class="brand"><img class="lg" alt=""><span>Safir</span></div></header>
+  <div id="lobby">
+    <div class="hero"><h1>Konuşmaya hazır mısın?</h1><p>Bir oda kur ya da arkadaşının oda koduyla odaya katıl.</p></div>
+    <div class="cards">
+      <div class="rc"><div class="ric"><svg class="ic"><use href="#i-users"/></svg></div><h3>Oda oluştur</h3><p>Yeni bir sesli oda aç, kodu arkadaşlarınla paylaş.</p>
+        <input id="rname" placeholder="Oda adı (isteğe bağlı)" maxlength="30"><select id="rmode" title="Odaya kimler girebilir"><option value="open">Herkes (oda koduyla)</option><option value="friends">Yalnızca arkadaşlarım</option><option value="approve">Onayımla girsin</option></select><button class="btn" onclick="create()">Oda oluştur</button></div>
+      <div class="rc"><div class="ric sec"><svg class="ic"><use href="#i-call"/></svg></div><h3>Odaya katıl</h3><p>Arkadaşından aldığın 6 karakterlik oda kodunu yaz.</p>
+        <input id="rcode" placeholder="Oda kodu" maxlength="6" autocomplete="off"><button class="btn sec" onclick="join($('#rcode').value)">Odaya katıl</button></div>
+    </div>
+    <div class="hint center">Soldaki listede arkadaşın bir odadaysa yanındaki Katıl düğmesine de basabilirsin.</div>
+  </div>
+  <div id="inroom" hidden>
+    <div class="rh"><div><h2 id="rt"></h2><span class="m"><span class="livedot"></span><span id="rcnt"></span></span></div>
+      <div class="codechip"><span class="m">Oda kodu</span><b id="rc"></b><button class="ibtn" title="Kodu kopyala" onclick="copy(room.code)"><svg class="ic"><use href="#i-copy"/></svg></button></div></div>
+    <div id="jreqs"></div>
+    <div class="grid" id="grid"></div>
+    <div class="ctl">
+      <button id="bm" class="cb" onclick="mute()"><svg class="ic"><use href="#i-mic"/></svg><span>Mikrofon</span></button>
+      <button id="bd" class="cb" onclick="deafen()"><svg class="ic"><use href="#i-hp"/></svg><span>Kulaklık</span></button>
+      <button class="cb leave" onclick="leave()"><svg class="ic"><use href="#i-leave"/></svg><span>Ayrıl</span></button>
+    </div>
+    <section id="chat">
+      <div class="chh"><b>Sohbet</b><span class="m">Mesajlar ve dosyalar odadaki kişilere doğrudan iletilir</span></div>
+      <div id="msgs"></div>
+      <button id="newmsg" class="pill" hidden>Yeni mesajlar ↓</button>
+      <div id="typing"></div>
+      <div id="emo" hidden><div id="etabs"></div><div id="egrid"></div></div>
+      <div id="dz" hidden>Dosyayı buraya bırak</div>
+      <div class="cbar">
+        <button class="ibtn" id="emobtn" title="Emoji" onclick="togEmoji()"><svg class="ic"><use href="#i-smile"/></svg></button>
+        <button class="ibtn" title="Dosya gönder" onclick="document.getElementById('fi').click()"><svg class="ic"><use href="#i-clip"/></svg></button>
+        <textarea id="ci" rows="1" maxlength="2000" placeholder="Mesaj yaz…" title="Enter gönderir, Shift+Enter yeni satır"></textarea>
+        <button class="send" title="Gönder" onclick="sendCurrent()"><svg class="ic"><use href="#i-send"/></svg></button>
+      </div>
+      <input type="file" id="fi" multiple hidden>
+    </section>
+  </div>
+  <div id="dmv" hidden>
+    <div class="dmh">
+      <button class="ibtn" title="Geri" onclick="closeDM()"><svg class="ic"><use href="#i-back"/></svg></button>
+      <div class="avt" id="dmav" style="--s:40px"></div>
+      <div class="fi"><b id="dmn"></b><span class="m" id="dms"></span></div>
+      <button id="dmcall" class="pill alt" hidden></button>
+    </div>
+    <div id="dmroom" class="roombar" hidden><span>Sesli odadasın: <b id="dmrn"></b></span><button class="pill" onclick="closeDM()">Odaya dön</button></div>
+    <section id="dchat">
+      <div id="dmsgs"></div>
+      <button id="dnewmsg" class="pill" hidden>Yeni mesajlar ↓</button>
+      <div id="dtyping"></div>
+      <div id="demo" hidden><div id="detabs"></div><div id="degrid"></div></div>
+      <div id="ddz" hidden>Dosyayı buraya bırak</div>
+      <div class="cbar">
+        <button class="ibtn" id="demobtn" title="Emoji" onclick="togEmoji('d')"><svg class="ic"><use href="#i-smile"/></svg></button>
+        <button class="ibtn" title="Dosya gönder" onclick="document.getElementById('dfi').click()"><svg class="ic"><use href="#i-clip"/></svg></button>
+        <textarea id="dci" rows="1" maxlength="2000" placeholder="Mesaj yaz…" title="Enter gönderir, Shift+Enter yeni satır"></textarea>
+        <button class="send" title="Gönder" onclick="dmSend()"><svg class="ic"><use href="#i-send"/></svg></button>
+      </div>
+      <input type="file" id="dfi" multiple hidden>
+    </section>
+  </div>
+</main>
+
+<div id="toast"><span id="tt"></span><button id="ta" hidden></button></div>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"><\/script>')</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const I192='data:image/png;base64,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',I512='data:image/png;base64,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';
+document.querySelectorAll('.lg').forEach(i=>i.src=I192);
+let ip;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();ip=e;$('#inst').hidden=false});
+(()=>{try{
+  const u=location.href.split('#')[0],ic=(z,d)=>({src:d,sizes:z,type:'image/png',purpose:'any maskable'});
+  const m={name:'Safir',short_name:'Safir',lang:'tr',start_url:u,scope:u.replace(/[^/]*$/,''),display:'standalone',
+    background_color:'#111318',theme_color:'#5170ff',icons:[ic('192x192',I192),ic('512x512',I512)]};
+  const add=(rel,href)=>{const l=document.createElement('link');l.rel=rel;l.href=href;document.head.appendChild(l)};
+  add('manifest',URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'})));
+  add('apple-touch-icon',I192);add('icon',I192);
+}catch(e){}})();
+const PF='sesoda-',RPF='sesoda-oda-',CODE=/^[a-z0-9]{1,10}-[a-z0-9]{4}$/,RC=/^[a-z0-9]{6}$/;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DEFSET={mic:'',spk:'',vol:100,ns:true,ec:true,agc:true,sens:18,notifSound:true,notifDesk:false,accent:'ocean',fsize:'m',compact:false,perm:{friends:true,dms:true,room:'open'}};
+const SET=JSON.parse(JSON.stringify(DEFSET));
+const ACC={ocean:['#43cfe0','#2b7fd8','#2a54c8'],violet:['#b9a5ff','#7c5cff','#5b3fd8'],rose:['#ff9ec0','#e0568b','#b83270'],emerald:['#6ee7c8','#2fb67c','#15803d'],amber:['#fcd34d','#ee8a3d','#c2410c'],slate:['#d5dcea','#8d99b5','#4b5878']};
+const OKAV=/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+\/=]+$/;
+const ico=(n,c)=>'<svg class="ic '+(c||'')+'"><use href="#i-'+n+'"/></svg>';
+const AVC=['#2b8fd6','#7c5cff','#e0568b','#ee8a3d','#2fb67c','#c9981f','#14a7b8','#b45bd8'];
+const avc=s=>AVC[Array.from(String(s)).reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7)%AVC.length];
+const rnd=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>'abcdefghjkmnpqrstuvwxyz23456789'[b%31]).join('');
+let st=null,peer,local=null,room=null,muted=false,deaf=false,pend=null,joining=false,toastT,wl=null,tries=0,jTry=0,jTimer,pt,sentTy=0,unread=0,emoCat=null,dmWith=null,dmSentTy=0,sndCtx=null;
+const conns={},info={},reqs=[],an={},dbg=[],chatConns={},seen=new Set(),hist=[],inFiles={},typers={},chatLog=[],dms={},avatars={};
+const save=()=>{try{localStorage.setItem('sesoda2f:'+st.code,JSON.stringify(st.friends))}catch(e){}};
+
+function toast(msg,label,fn){
+  $('#tt').textContent=msg;const a=$('#ta');a.hidden=!fn;
+  if(fn){a.textContent=label;a.onclick=()=>{$('#toast').style.display='none';fn()}}
+  $('#toast').style.display='flex';clearTimeout(toastT);toastT=setTimeout(()=>$('#toast').style.display='none',9000);
+}
+function copy(t){
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Kopyalandı: '+t)).catch(()=>prompt('Kopyala:',t));
+}
+
+/* ---------- başlangıç ---------- */
+/* ---------- hesap (Google ile giriş) ---------- */
+// Google Cloud Console'dan aldığın "Web uygulaması" istemci kimliğini buraya yaz:
+const GOOGLE_CLIENT_ID='BURAYA-ISTEMCI-KIMLIGINI-YAZ.apps.googleusercontent.com';
+const TURN_USER='fb11af57c90215eabab8abd6',TURN_PASS='lhS0QODXOrGoeno/';  // istersen Metered TURN bilgilerini buraya yaz, arkadaşların ayrıca girmesin
+const EXTRA_ICE=[]; // Ağın doğrudan bağlantıyı engelliyorsa buraya TURN ekle: {urls:'turn:...',username:'...',credential:'...'}
+const CID=(()=>{try{return localStorage.getItem('safir_gcid')||''}catch(e){return ''}})()||GOOGLE_CLIENT_ID;
+const FIREBASE_CONFIG={apiKey:"AIzaSyDRiZz0Up3ZWOY2Vu-t7NYMovCeJr1NWhg",authDomain:"safir-513414.firebaseapp.com",projectId:"safir-513414",storageBucket:"safir-513414.firebasestorage.app",messagingSenderId:"525544659987",appId:"1:525544659987:web:9fc63c607bd672f8a7b3e6"}; // istersen firebaseConfig nesnesini buraya yaz, arkadaşların ayrıca yapıştırmasın
+const FB=(()=>{try{return JSON.parse(localStorage.getItem('safir_fb')||'null')}catch(e){return null}})()||FIREBASE_CONFIG;
+const AK='sesoda2',CONFIGURED=/\.apps\.googleusercontent\.com$/.test(CID)&&!CID.startsWith('BURAYA');
+const jwt=t=>JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0))));
+async function codeFor(sub){
+  const h=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode('sesoda:'+sub)));
+  const AL='abcdefghjkmnpqrstuvwxyz23456789',c=Array.from(h.slice(0,8),b=>AL[b%31]).join('');
+  return c.slice(0,4)+'-'+c.slice(4);
+}
+async function onGoogle(r){
+  try{
+    const p=jwt(r.credential);
+    const acc={name:String(p.given_name||p.name||'Kişi').slice(0,16),code:await codeFor(p.sub),pic:String(p.picture||'')};
+    localStorage.setItem(AK,JSON.stringify(acc));login(acc);
+  }catch(e){toast('Giriş başarısız. Tekrar dene.')}
+}
+/* ---------- e-posta ile kayıt (Firebase Authentication) ---------- */
+let fbAuth=null;
+function fbInit(){
+  if(fbAuth||!FB||!window.firebase)return fbAuth;
+  try{firebase.initializeApp(FB);fbAuth=firebase.auth();fbAuth.languageCode='tr'}catch(e){log('Firebase hatası: '+e.message)}
+  return fbAuth;
+}
+function initEmail(){
+  const ok=/^https?:/.test(location.origin);
+  $('#emsec').hidden=!(ok&&FB);$('#emtabs').hidden=!(ok&&FB);$('#or').hidden=!(ok&&FB);$('#fbset').hidden=!(ok&&!FB);
+}
+const emNote=(m,bad)=>{const n=$('#emnote');n.textContent=m;n.style.color=bad?'#e8788a':''};
+const EMERR={'auth/email-already-in-use':'Bu e-posta ile zaten hesap var. Giriş yap sekmesini kullan.','auth/invalid-email':'E-posta adresi geçersiz.',
+  'auth/weak-password':'Şifre en az 6 karakter olmalı.','auth/wrong-password':'E-posta ya da şifre yanlış.','auth/invalid-credential':'E-posta ya da şifre yanlış.',
+  'auth/user-not-found':'Bu e-posta ile kayıtlı hesap yok.','auth/too-many-requests':'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.',
+  'auth/network-request-failed':'Ağ hatası. İnternet bağlantını kontrol et.','auth/operation-not-allowed':"Firebase'de E-posta/Şifre girişi açık değil."};
+const emErr=e=>EMERR[e.code]||('Hata: '+(e.code||e.message));
+function emTab(m){
+  $('#pl').hidden=m!='l';$('#ps').hidden=m!='s';
+  $('#tabL').classList.toggle('on',m=='l');$('#tabS').classList.toggle('on',m=='s');emNote('');
+}
+function showVer(m){['#pl','#ps','#emtabs','#gblock','#or'].forEach(x=>{$(x).hidden=true});$('#emver').hidden=false;$('#vic').hidden=false;emNote(m)}
+function emBack(){
+  try{fbAuth&&fbAuth.signOut()}catch(e){}
+  $('#emver').hidden=true;$('#vic').hidden=true;['#emtabs','#gblock','#or'].forEach(x=>{$(x).hidden=false});emTab('l');
+}
+async function emSignup(){
+  const a=fbInit();if(!a)return emNote('Firebase yüklenemedi ya da ayarı eksik.',1);
+  const n=$('#dn').value.trim().slice(0,16),e=$('#sem').value.trim(),p=$('#spw').value,p2=$('#spw2').value;
+  if(!n||!e||!p)return emNote('Görünen ad, e-posta ve şifre yaz.',1);
+  if(p!==p2)return emNote('Şifreler aynı değil.',1);
+  try{
+    const c=await a.createUserWithEmailAndPassword(e,p);
+    await c.user.updateProfile({displayName:n});await c.user.sendEmailVerification();
+    showVer('Hesabın oluşturuldu. '+e+' adresine bir doğrulama bağlantısı gönderdik. E-postandaki bağlantıya tıkla (spam klasörüne de bak), sonra aşağıdaki düğmeye bas.');
+  }catch(x){emNote(emErr(x),1)}
+}
+async function emLogin(){
+  const a=fbInit();if(!a)return emNote('Firebase yüklenemedi ya da ayarı eksik.',1);
+  const e=$('#lem').value.trim(),p=$('#lpw').value;
+  if(!e||!p)return emNote('E-posta ve şifre yaz.',1);
+  try{
+    const c=await a.signInWithEmailAndPassword(e,p);
+    if(!c.user.emailVerified)return showVer('E-postan henüz doğrulanmamış. Bağlantıya tıkladıktan sonra aşağıdaki düğmeye bas.');
+    await finishEmail(c.user);
+  }catch(x){emNote(emErr(x),1)}
+}
+async function emCheck(){
+  const u=fbAuth&&fbAuth.currentUser;if(!u)return emNote('Önce giriş yap.',1);
+  try{await u.reload();if(u.emailVerified)await finishEmail(u);else emNote('Henüz doğrulanmamış görünüyor. E-postandaki bağlantıya tıkladığından emin ol.',1)}catch(x){emNote(emErr(x),1)}
+}
+async function emResend(){
+  const u=fbAuth&&fbAuth.currentUser;if(!u)return emNote('Önce giriş yap.',1);
+  try{await u.sendEmailVerification();emNote('Doğrulama bağlantısı tekrar gönderildi.')}catch(x){emNote(emErr(x),1)}
+}
+async function emReset(){
+  const a=fbInit(),e=$('#lem').value.trim();
+  if(!a||!e)return emNote('Önce e-posta adresini yaz.',1);
+  try{await a.sendPasswordResetEmail(e);emNote('Şifre sıfırlama bağlantısı gönderildi.')}catch(x){emNote(emErr(x),1)}
+}
+async function finishEmail(u){
+  const acc={name:String(u.displayName||u.email.split('@')[0]).slice(0,16),code:await codeFor('fb:'+u.uid),pic:''};
+  try{localStorage.setItem(AK,JSON.stringify(acc))}catch(e){}login(acc);
+}
+function saveFb(){
+  const c={};
+  $('#fbcfg').value.replace(/["']?(\w+)["']?\s*:\s*["']([^"']*)["']/g,(m,k,v)=>{c[k]=v;return m});
+  if(!c.apiKey||!c.projectId)return toast('apiKey ve projectId bulunamadı. firebaseConfig kodunu aynen yapıştır.');
+  try{localStorage.setItem('safir_fb',JSON.stringify(c))}catch(e){}location.reload();
+}
+function saveGid(){
+  const v=$('#gid').value.trim();
+  if(!/^[\w.-]+\.apps\.googleusercontent\.com$/.test(v))return toast('Kimlik şuna benzer olmalı: 1234-abc.apps.googleusercontent.com');
+  try{localStorage.setItem('safir_gcid',v)}catch(e){}location.reload();
+}
+function resetGid(){try{localStorage.removeItem('safir_gcid')}catch(e){}location.reload()}
+function guest(){
+  const n=(prompt('Adın?')||'').trim().slice(0,16);if(!n)return;
+  const acc={name:n,code:rnd(4)+'-'+rnd(4),pic:''};localStorage.setItem(AK,JSON.stringify(acc));login(acc);
+}
+function login(acc){
+  let f=[];try{f=JSON.parse(localStorage.getItem('sesoda2f:'+acc.code)||'[]')}catch(e){}
+  st={name:acc.name,code:acc.code,pic:acc.pic,friends:f};$('#setup').hidden=true;start();
+}
+function logout(){
+  if(!confirm('Çıkış yapılsın mı?'))return;
+  try{localStorage.removeItem(AK);google.accounts.id.disableAutoSelect()}catch(e){}
+  try{fbAuth&&fbAuth.signOut()}catch(e){}
+  try{leave();peer.destroy()}catch(e){}
+  location.reload();
+}
+function showLogin(){
+  $('#setup').hidden=false;initEmail();
+  if(!CONFIGURED){
+    $('#gnote').textContent=(location.protocol=='file:'?'Google girişi dosyaya çift tıklayınca çalışmaz; linkten ya da Safir.exe ile aç. ':'')+'Bu sayfanın adresi: '+location.origin+' (Google ayarlarında "Authorized JavaScript origins" listesine eklenecek).';
+    $('#gbtn').hidden=true;$('#gset').hidden=false;$('#guest').hidden=false;return;
+  }
+  if(!/^https?:/.test(location.origin)){
+    $('#gnote').textContent='Bu sayfa doğru adresten açılmamış (şu anki adres: '+location.origin+'). Google girişi için zip içindeki baslat.bat ile aç; açılan pencerenin adresi http://localhost:47821 olmalı. Önizlemede ya da dosyaya çift tıklayarak açılan sayfada Google girişi çalışmaz. Şimdilik Google olmadan da deneyebilirsin.';
+    $('#guest').hidden=false;$('#gchg').hidden=false;return;
+  }
+  $('#gnote').textContent='Bu sayfanın adresi: '+location.origin+' (Google ayarlarında "Yetkili JavaScript kaynakları" listesinde olmalı).';
+  try{$('#gchg').hidden=!localStorage.getItem('safir_gcid')}catch(e){}
+  const t=setInterval(()=>{
+    if(window.google&&google.accounts){clearInterval(t);
+      google.accounts.id.initialize({client_id:CID,callback:onGoogle});
+      google.accounts.id.renderButton($('#gbtn'),{theme:'filled_black',size:'large',text:'signin_with',locale:'tr',width:320});$('#gnote').textContent='';
+    }
+  },200);
+  setTimeout(()=>{if(!window.google)$('#gnote').textContent='Google yüklenemedi. İnternet bağlantını kontrol et.'},8000);
+}
+let saved=null;try{saved=JSON.parse(localStorage.getItem(AK)||'null')}catch(e){}
+if(saved&&saved.code)login(saved);else showLogin();
+
+function log(m){
+  dbg.unshift(new Date().toLocaleTimeString('tr')+' '+m);dbg.length=Math.min(dbg.length,40);
+  const e=document.getElementById('dbg');if(e)e.textContent=dbg.join('\n');console.log('[Safir]',m);
+}
+function icecfg(){
+  let t=null;try{t=JSON.parse(localStorage.getItem('safir_turn')||'null')}catch(e){}
+  const u=(t&&t.u)||TURN_USER,k=(t&&t.k)||TURN_PASS;
+  const ice=[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302','stun:stun.cloudflare.com:3478']}];
+  if(u&&k)ice.push({urls:['turn:global.relay.metered.ca:80','turn:global.relay.metered.ca:80?transport=tcp','turn:global.relay.metered.ca:443','turns:global.relay.metered.ca:443?transport=tcp'],username:u,credential:k});
+  return{config:{iceServers:ice.concat(EXTRA_ICE),iceCandidatePoolSize:2}};
+}
+function saveTurn(){
+  const u=$('#tu').value.trim(),k=$('#tk').value.trim();
+  try{if(u&&k)localStorage.setItem('safir_turn',JSON.stringify({u,k}));else localStorage.removeItem('safir_turn')}catch(e){}
+  location.reload();
+}
+function start(){
+  loadSet();
+  $('#code').textContent=st.code;refreshMe();
+  connectBroker();draw();
+}
+function connectBroker(){
+  if(!window.Peer){$('#st').textContent='PeerJS yüklenemedi';log('PeerJS yüklenemedi (internet ya da engelleme)');return}
+  try{if(peer)peer.destroy()}catch(e){}
+  $('#st').textContent=tries?`yeniden deneniyor (${tries})…`:'bağlanıyor…';
+  const mine=peer=new Peer(PF+st.code,icecfg());
+  const slow=setTimeout(()=>{if(!mine.open&&peer===mine)$('#st').textContent='sunucuya ulaşılamıyor…'},12000);
+  mine.on('open',()=>{clearTimeout(slow);tries=0;$('#st').textContent='çevrim içi';log('aracı sunucuya bağlandı: '+st.code+' | TURN '+(icecfg().config.iceServers.length>1?'var':'YOK'));ping();if(!pt)pt=setInterval(ping,8000)});
+  mine.on('disconnected',()=>{if(peer!==mine)return;$('#st').textContent='yeniden bağlanıyor…';log('aracı sunucudan koptu');try{mine.reconnect()}catch(e){}});
+  mine.on('error',e=>{
+    const m=String(e.message||'');log('hata: '+e.type+' '+m);
+    if(e.type=='unavailable-id'){
+      clearTimeout(slow);
+      if(++tries<=15){$('#st').textContent=`kod hâlâ açık görünüyor, tekrar deneniyor (${tries}/15)…`;setTimeout(()=>{if(peer===mine)connectBroker()},4000)}
+      else{$('#st').textContent='bu hesap başka yerde açık';toast('Bu hesap başka bir cihaz ya da pencerede açık. Orayı kapatıp sayfayı yenile.')}
+      return;
+    }
+    if(e.type=='peer-unavailable'){
+      if(joining&&room&&m.includes(RPF+room.code))return roomRetry();
+      if(pend&&m.includes(pend.id)){toast(pend.msg);pend=null}
+      return;
+    }
+    if(e.type=='disconnected')return;
+    if(['network','server-error','socket-error','socket-closed'].includes(e.type)){$('#st').textContent='sunucuya ulaşılamıyor';return}
+    toast('Bağlantı hatası: '+e.type);
+  });
+  mine.on('connection',c=>c.metadata&&c.metadata.chat?hookChat(c):hook(c));
+  mine.on('call',c=>{
+    if(!room||!local){c.close();return}
+    if(room.host&&room.mode&&room.mode!='open'&&!room.allowed.has(c.peer.slice(PF.length))){c.close();return}
+    c.answer(local);addMember(c.peer.slice(PF.length),(c.metadata&&c.metadata.name)||'?',c);
+  });
+}
+
+/* ---------- arkadaşlar ---------- */
+const cleanRoom=r=>r&&RC.test(r.code)?{code:r.code,name:String(r.name||'Oda').slice(0,30)}:null;
+const myRoom=()=>room?{code:room.code,name:room.name}:null;
+
+function hook(c){
+  const id=c.peer.slice(PF.length);
+  if(!CODE.test(id)){c.close();return}
+  c.on('open',()=>{conns[id]=c;log('veri bağlantısı açıldı: '+id);c.send({t:'hello',name:st.name,av:st.av||'',room:myRoom()});dmFlush(id);draw()});
+  c.on('data',d=>msg(id,d||{}));
+  c.on('close',()=>{if(conns[id]===c){delete conns[id];delete info[id]}draw()});
+  c.on('error',e=>log('veri bağlantı hatası '+id+': '+(e.type||e)));
+}
+function msg(id,d){
+  const f=st.friends.find(x=>x.code==id),name=String(d.name||'?').slice(0,16);
+  if(f){
+    if(d.t=='dfc'){dFileChunk(id,d);return}
+    if(d.t=='dty'){dmTyping(id);return}
+    if(d.t=='dfs'){dFileStart(id,f,d);return}
+    if(d.t=='dm'&&typeof d.tx=='string'){dmIncoming(id,f,d);return}
+    if(d.t=='prof'){updFriendProf(id,f,d);return}
+  }
+  if(d.t=='hello'){info[id]={name,room:cleanRoom(d.room)};if(f)cacheAv(id,d.av);if(f&&f.name!=name){f.name=name;save()}}
+  else if(d.t=='presence'){info[id]=Object.assign(info[id]||{name},{room:cleanRoom(d.room)})}
+  else if(d.t=='req'){
+    if(!f&&!SET.perm.friends){if(conns[id])conns[id].send({t:'deny',why:'req'});return}
+    if(f)conns[id]&&conns[id].send({t:'accept',name:st.name});
+    else if(!reqs.find(r=>r.code==id)){reqs.push({code:id,name});toast(name+' seni arkadaş olarak eklemek istiyor.')}
+  }
+  else if(d.t=='deny'){onDeny(id,d)}
+  else if(d.t=='accept'){addFriend(id,name);toast(name+' isteğini kabul etti.')}
+  else if(d.t=='invite'){
+    snd('call');desk('Safir',(info[id]?info[id].name:name)+' seni odaya çağırıyor');
+    const r=cleanRoom(d.room);if(r)toast((info[id]?info[id].name:name)+' seni "'+r.name+'" odasına çağırıyor.','Katıl',()=>join(r.code));
+  }
+  draw();
+}
+function addFriend(code,name){
+  if(!st.friends.find(f=>f.code==code)){st.friends.push({code,name});save()}
+  if(!conns[code])hook(peer.connect(PF+code,{reliable:true}));
+  draw();
+}
+function ping(){if(!peer||!peer.open)return;st.friends.forEach(f=>{if(!conns[f.code])hook(peer.connect(PF+f.code,{reliable:true}))})}
+function addByCode(){
+  const code=$('#fc').value.trim().toLowerCase();
+  if(!CODE.test(code))return toast('Kod şuna benzer olmalı: ab3k-9xq2');
+  if(code==st.code)return toast('Bu senin kendi kodun.');
+  if(st.friends.find(f=>f.code==code))return toast('Zaten arkadaşsınız.');
+  if(!peer||!peer.open)return toast('Önce aracı sunucuya bağlanmalısın. Üstte "çevrim içi" yazmalı.');
+  pend={id:PF+code,msg:'Kişi çevrim dışı ya da kod yanlış.'};setTimeout(()=>pend=null,6000);
+  const c=peer.connect(PF+code,{reliable:true});hook(c);
+  c.on('open',()=>{c.send({t:'req',name:st.name});toast('İstek gönderildi.')});
+  setTimeout(()=>{if(!(conns[code]&&conns[code].open)&&pend)toast('Bağlantı kurulamadı. Karşı taraf çevrim dışı ya da ağ engelliyor olabilir.')},12000);
+  $('#fc').value='';
+}
+function acc(code){
+  const r=reqs.find(x=>x.code==code);if(!r)return;
+  reqs.splice(reqs.indexOf(r),1);addFriend(code,r.name);
+  if(conns[code])conns[code].send({t:'accept',name:st.name});
+}
+function dec(code){const i=reqs.findIndex(x=>x.code==code);if(i>=0)reqs.splice(i,1);draw()}
+function rm(code){st.friends=st.friends.filter(f=>f.code!=code);save();if(dmWith==code)dmWith=null;try{localStorage.removeItem(dmKey(code));localStorage.removeItem(dmRKey(code))}catch(e){}delete dms[code];draw()}
+function inv(code){if(room&&room.host&&room.allowed)room.allowed.add(code);if(conns[code]&&room)conns[code].send({t:'invite',name:st.name,room:myRoom()});toast('Davet gönderildi.')}
+
+function draw(){
+  if(!st)return;
+  const av=(n,on,c)=>'<div class="avt'+(on?' on':'')+'" style="--s:38px;background:'+avc(n)+'">'+esc((n[0]||'?').toUpperCase())+avImg(avatarOf(c))+'<i class="pd"></i></div>';
+  $('#reqs').innerHTML=reqs.length?'<div class="sh">İstekler <span class="cnt">'+reqs.length+'</span></div>'+reqs.map(r=>
+    '<div class="fr">'+av(r.name,0,r.code)+'<div class="fi"><b>'+esc(r.name)+'</b><span class="m">Arkadaşlık isteği</span></div>'+
+    '<button class="ibtn ok" title="Kabul et" onclick="acc(\''+r.code+'\')">'+ico('check')+'</button>'+
+    '<button class="ibtn" title="Reddet" onclick="dec(\''+r.code+'\')">'+ico('x')+'</button></div>').join(''):'';
+  const fr=st.friends.slice().sort((a,b)=>!!conns[b.code]-!!conns[a.code]);
+  const onl=fr.filter(f=>conns[f.code]&&conns[f.code].open).length;
+  $('#fcnt').textContent=fr.length?onl+'/'+fr.length+' çevrim içi':'';
+  $('#fl').innerHTML=fr.length?fr.map(f=>{
+    const on=!!(conns[f.code]&&conns[f.code].open),i=info[f.code],r=on&&i&&i.room,mine=r&&room&&room.code==r.code,ub=dmUnread(f.code);
+    return '<div class="fr clk'+(dmWith==f.code?' act':'')+'" onclick="rowClick(event,\''+f.code+'\')">'+av(f.name,on,f.code)+'<div class="fi"><b>'+esc(f.name)+'</b><span class="m'+(r?' live':'')+'">'+(on?(r?'Odada: '+esc(r.name):'Çevrim içi'):'Çevrim dışı')+'</span></div>'+
+      (ub?'<span class="ub">'+(ub>9?'9+':ub)+'</span>':'')+
+      (r&&!mine?'<button class="pill" data-close onclick="join(\''+r.code+'\')">'+ico('users')+'Katıl</button>':'')+
+      (on&&room&&!r?'<button class="pill alt" data-close onclick="inv(\''+f.code+'\')">'+ico('call')+'Çağır</button>':'')+
+      '<button class="ibtn" title="Mesaj gönder" onclick="openDM(\''+f.code+'\')">'+ico('msg')+'</button>'+
+      '<button class="ibtn rm" title="Arkadaşlıktan çıkar" onclick="rm(\''+f.code+'\')">'+ico('x')+'</button></div>';
+  }).join(''):'<div class="empty">Henüz arkadaşın yok.<br>Arkadaşının kodunu yukarıya yapıştırıp Ekle düğmesine bas.</div>';
+  if(dmWith)dmHead();
+  drawRoom();
+}
+
+/* ---------- sohbet ---------- */
+const MAXF=25*1024*1024,CH=12288,IMG=/^image\/(png|jpe?g|gif|webp)$/;
+const URLRE=/\b(?:https?:\/\/|www\.)[^\s<>"']+/gi;
+const EMPTY='<div class="m" style="margin:auto;text-align:center;padding:20px">Henüz mesaj yok.<br>Yaz, dosya sürükle ya da emoji gönder.<br>Odaya sonradan katılanlar son 30 mesajı görür.</div>';
+const EMO={
+ '😊':'😀 😃 😄 😁 😆 😅 😂 🤣 🥲 😊 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 🤓 😎 🥸 🤩 🥳 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬 🤯 😳 🥵 🥶 😱 😨 😰 😥 😓 🤗 🤔 🤭 🤫 🤥 😶 😐 😑 😬 🙄 😯 😦 😧 😮 😲 🥱 😴 🤤 😪 😵 🤐 🥴 🤢 🤮 🤧 😷 🤒 🤕',
+ '👍':'👍 👎 👌 🤌 ✌️ 🤞 🤟 🤘 🤙 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐️ 🖖 👋 🤝 🙏 💪 👏 🙌 👐 🤲 🫶 🫡 🫠 🫣 🫢 🫥 👀 👁️ 🧠 🦾',
+ '❤️':'❤️ 🧡 💛 💚 💙 💜 🖤 🤍 🤎 💔 ❣️ 💕 💞 💓 💗 💖 💘 💝 🔥 ✨ ⭐ 🌟 💫 💥 💯 ✅ ❌ ❓ ❗ ⚡ 🎉 🎊 🎶 🎵 💤 💢 💦 🚀 👑 💎',
+ '🎮':'🎮 🕹️ 🎧 🎤 🎸 🎹 🥁 🏆 🥇 ⚽ 🏀 🎯 🎲 🧩 🍕 🍔 🍟 🌭 🍿 🍩 🍪 🍰 ☕ 🍺 🥤 🐶 🐱 🐼 🦊 🦁 🐸 🐵 🙈 🙉 🙊 🌈 ☀️ 🌙 ⛄ 🎁 📱 💻'
+};
+const bcast=o=>Object.values(chatConns).forEach(c=>{try{if(c.open)c.send(o)}catch(e){}});
+const safeName=n=>String(n||'dosya').replace(/[\\\/:*?"<>|\u0000-\u001f]/g,'_').slice(0,80)||'dosya';
+const fmtSize=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB';
+const isCont=(p,m)=>!!p&&p.kind!='s'&&m.kind!='s'&&p.from==m.from&&m.ts-p.ts<120000;
+
+function openChat(code){
+  if(chatConns[code]||!peer||!room)return;
+  hookChat(peer.connect(PF+code,{reliable:true,metadata:{chat:1,room:room.code}}));
+}
+function hookChat(c){
+  const id=c.peer.slice(PF.length);
+  if(!CODE.test(id)||!room||!c.metadata||c.metadata.room!==room.code){try{c.close()}catch(e){}return}
+  if(room.host&&room.mode&&room.mode!='open'&&!room.allowed.has(id)){try{c.close()}catch(e){}return}
+  c.on('open',()=>{chatConns[id]=c;log('sohbet bağlantısı: '+id);c.send({t:'prof',name:st.name,av:st.av||''});if(hist.length)c.send({t:'hist',list:hist.slice(-30)})});
+  c.on('data',d=>onChat(id,d||{}));
+  c.on('close',()=>{if(chatConns[id]===c)delete chatConns[id]});
+  c.on('error',e=>log('sohbet hatası '+id+': '+(e.type||e)));
+}
+function closeChat(code){const c=chatConns[code];if(c){try{c.close()}catch(e){}delete chatConns[code]}}
+function chatReset(){
+  Object.values(chatConns).forEach(c=>{try{c.close()}catch(e){}});
+  for(const k in chatConns)delete chatConns[k];
+  chatLog.forEach(m=>{if(m.file&&m.file.url)try{URL.revokeObjectURL(m.file.url)}catch(e){}});
+  chatLog.length=0;seen.clear();hist.length=0;
+  for(const k in inFiles)delete inFiles[k];for(const k in typers)delete typers[k];
+  const b=document.getElementById('msgs');if(b)b.innerHTML=EMPTY;
+}
+
+/* metin, link ve önizleme */
+function textHTML(tx){
+  const emo=/^(?:\p{Extended_Pictographic}|\p{Emoji_Modifier}|\u200d|\ufe0f|\s){1,24}$/u.test(tx)&&/\p{Extended_Pictographic}/u.test(tx);
+  const h=esc(tx).replace(URLRE,u=>{
+    let tail='';const t=u.match(/(?:&quot;|&#39;|&gt;|&lt;|[.,;:!?)\]}])+$/);
+    if(t){tail=t[0];u=u.slice(0,u.length-tail.length)}
+    if(!u)return tail;
+    const href=/^www\./i.test(u)?'https://'+u:u;
+    return '<a href="'+href+'" target="_blank" rel="noopener noreferrer nofollow">'+(u.length>60?u.slice(0,57)+'…':u)+'</a>'+tail;
+  });
+  return (emo?'<span class="big">'+h+'</span>':h)+previews(tx);
+}
+function previews(tx){
+  let out='',n=0;
+  for(const m of tx.matchAll(/https?:\/\/[^\s<>"']+/gi)){
+    if(n>=2)break;
+    const u=m[0].replace(/[.,;:!?)\]}]+$/,'');
+    const yt=u.match(/(?:youtube\.com\/(?:watch\?(?:[^#\s]*&)?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
+    if(yt){out+='<div class="pv"><a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer nofollow"><img loading="lazy" referrerpolicy="no-referrer" alt="" src="https://i.ytimg.com/vi/'+yt[1]+'/hqdefault.jpg"></a></div>';n++}
+    else if(/\.(?:png|jpe?g|gif|webp)(?:\?[^\s#]*)?(?:#.*)?$/i.test(u)){out+='<div class="pv"><a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer nofollow"><img loading="lazy" referrerpolicy="no-referrer" alt="" src="'+esc(u)+'"></a></div>';n++}
+  }
+  return out;
+}
+function fileHTML(m){
+  const f=m.file,ic=IMG.test(f.mime)?'🖼️':/^audio/.test(f.mime)?'🎵':/^video/.test(f.mime)?'🎬':/zip|rar|7z|tar/.test(f.mime+f.name)?'🗜️':/pdf/.test(f.mime)?'📄':'📎';
+  let h='';
+  if(f.done&&IMG.test(f.mime)&&f.size<=10485760&&f.url)h+='<a href="'+f.url+'" target="_blank" rel="noopener"><img src="'+f.url+'" alt="" style="max-width:min(320px,100%);max-height:240px;border-radius:10px;display:block;margin:4px 0;animation:none"></a>';
+  h+='<div class="file"><span style="font-size:22px">'+ic+'</span><div style="min-width:0"><div style="font-weight:600;word-break:break-all">'+esc(f.name)+'</div><div class="m">'+fmtSize(f.size)+(f.done?(f.url?'':' · dosya artık mevcut değil'):' · %'+f.pct)+'</div>'+(f.done?'':'<div class="bar"><i style="width:'+f.pct+'%"></i></div>')+'</div>'+
+    (f.done&&f.url?'<a class="dl" href="'+f.url+'" download="'+esc(f.name)+'">İndir</a>':'')+'</div>';
+  return h;
+}
+function msgHTML(m,cont){
+  if(m.kind=='s')return '<div class="sys">'+esc(m.tx)+'</div>';
+  const own=m.from==st.code,t=new Date(m.ts).toLocaleTimeString('tr',{hour:'2-digit',minute:'2-digit'});
+  const body=m.kind=='f'?fileHTML(m):textHTML(m.tx);
+  return '<div class="mg'+(cont?'':' first')+'" id="msg-'+esc(m.id)+'">'+
+    (cont?'<div class="mav" style="visibility:hidden"></div>':'<div class="mav" style="background:'+avc(m.nm)+'">'+esc((m.nm||'?')[0].toUpperCase())+avImg(avatarOf(m.from))+'</div>')+
+    '<div style="min-width:0;flex:1">'+(cont?'':'<div class="mh"><b'+(own?' style="color:var(--a)"':'')+'>'+esc(m.nm)+'</b> '+t+'</div>')+'<div class="mb">'+body+'</div>'+(m.st=='p'?'<div class="m">Gönderilecek: arkadaşın çevrim dışı</div>':'')+(m.st=='x'?'<div class="m" style="color:#ff8a9b">Gönderilemedi: bu kişi doğrudan mesajları kapattı</div>':'')+'</div></div>';
+}
+function renderChat(){
+  const box=document.getElementById('msgs');if(!box)return;
+  box.innerHTML=chatLog.length?chatLog.map((m,i)=>msgHTML(m,isCont(chatLog[i-1],m))).join(''):EMPTY;
+  box.scrollTop=box.scrollHeight;
+}
+function addMsg(m,live){
+  m.kind=m.kind||'t';
+  if(m.kind!='s'){if(!m.id||seen.has(m.id))return;seen.add(m.id)}
+  let i=chatLog.length;while(i>0&&chatLog[i-1].ts>m.ts)i--;
+  chatLog.splice(i,0,m);
+  if(chatLog.length>300){const o=chatLog.shift();if(o.file&&o.file.url)try{URL.revokeObjectURL(o.file.url)}catch(e){}}
+  const box=document.getElementById('msgs');if(!box)return;
+  if(i<chatLog.length-1){renderChat();return}
+  if(chatLog.length==1)box.innerHTML='';
+  const near=box.scrollHeight-box.scrollTop-box.clientHeight<90;
+  box.insertAdjacentHTML('beforeend',msgHTML(m,isCont(chatLog[chatLog.length-2],m)));
+  if(m.from==st.code||near)box.scrollTop=box.scrollHeight;else document.getElementById('newmsg').hidden=false;
+  if(live&&m.from!=st.code&&m.kind!='s'&&document.hidden){unread++;document.title='('+unread+') Safir'}
+}
+const sys=tx=>{if(room)addMsg({id:'s'+rnd(6),kind:'s',tx,ts:Date.now(),from:'',nm:''},true)};
+function updFile(m){const e=document.getElementById('msg-'+m.id);const b=e&&e.querySelector('.mb');if(b)b.innerHTML=fileHTML(m)}
+
+/* gönder / al */
+function sendCurrent(){
+  const ci=document.getElementById('ci'),tx=ci.value.trim();
+  if(!tx||!room)return;
+  const m={id:rnd(10),from:st.code,nm:st.name,tx:tx.slice(0,2000),ts:Date.now()};
+  bcast({t:'m',id:m.id,tx:m.tx,ts:m.ts});
+  hist.push(m);if(hist.length>60)hist.shift();
+  addMsg(Object.assign({},m),true);
+  ci.value='';ci.style.height='';
+}
+function onChat(id,d){
+  if(!room)return;
+  const nm=(room.members[id]&&room.members[id].name)||'?';
+  if(d.t=='m'&&typeof d.tx=='string'){
+    const m={id:String(d.id||'').slice(0,24),from:id,nm,tx:d.tx.slice(0,2000),ts:Number(d.ts)||Date.now()};
+    hist.push(m);if(hist.length>60)hist.shift();delete typers[id];if(document.hidden||dmWith)snd('msg');addMsg(m,true);
+  }else if(d.t=='hist'&&Array.isArray(d.list)){
+    d.list.slice(-30).forEach(m=>{if(m&&typeof m.tx=='string'){
+      const x={id:String(m.id||'').slice(0,24),from:String(m.from||'').slice(0,20),nm:String(m.nm||'?').slice(0,16),tx:m.tx.slice(0,2000),ts:Number(m.ts)||0};
+      if(x.id&&!seen.has(x.id)){hist.push(x);addMsg(x,false)}
+    }});
+  }else if(d.t=='prof'){const mb=room.members[id];if(mb&&d.name)mb.name=String(d.name).slice(0,16);cacheAv(id,d.av);drawRoom();renderChat();
+  }else if(d.t=='ty'){typers[id]={nm,until:Date.now()+3000};showTyping()}
+  else if(d.t=='fs')fileStart(id,nm,d);
+  else if(d.t=='fc')fileChunk(id,d);
+}
+async function sendFiles(files){
+  if(!room)return toast('Önce bir odaya gir.');
+  for(const f of files){
+    if(f.size>MAXF){toast(f.name+' çok büyük (en fazla 25 MB).');continue}
+    const peers=Object.values(chatConns).filter(c=>c.open);
+    if(!peers.length){toast('Odada başka kimse yok, dosya gönderilemedi.');return}
+    const fid=rnd(10),n=Math.max(1,Math.ceil(f.size/CH));
+    const mo={id:fid,from:st.code,nm:st.name,ts:Date.now(),kind:'f',file:{fid,name:safeName(f.name),size:f.size,mime:f.type||'',url:URL.createObjectURL(f),pct:0,done:false}};
+    addMsg(mo,true);
+    peers.forEach(c=>c.send({t:'fs',fid,name:mo.file.name,size:f.size,mime:mo.file.mime,n}));
+    for(let i=0;i<n;i++){
+      const buf=await f.slice(i*CH,(i+1)*CH).arrayBuffer();
+      for(const c of peers){
+        if(!c.open)continue;
+        while(c.dataChannel&&c.dataChannel.bufferedAmount>1048576)await new Promise(r=>setTimeout(r,30));
+        c.send({t:'fc',fid,i,d:buf});
+      }
+      mo.file.pct=Math.round((i+1)/n*100);updFile(mo);
+    }
+    mo.file.done=true;updFile(mo);
+  }
+}
+function fileStart(id,nm,d){
+  const fid=String(d.fid||'').slice(0,20),size=Number(d.size),n=Number(d.n),k=id+':'+fid;
+  if(!fid||inFiles[k]||!(size>=0)||size>MAXF||n!=Math.max(1,Math.ceil(size/CH))||Object.keys(inFiles).length>8)return;
+  const mime=IMG.test(String(d.mime))?String(d.mime):'';
+  const mo={id:id+'-'+fid,from:id,nm,ts:Date.now(),kind:'f',file:{fid,name:safeName(d.name),size,mime,url:'',pct:0,done:false}};
+  inFiles[k]={chunks:new Array(n),got:0,n,size,mime,mo};
+  addMsg(mo,true);
+}
+function fileChunk(id,d){
+  const k=id+':'+String(d.fid||'').slice(0,20),r=inFiles[k];
+  if(!r)return;
+  const i=Number(d.i);if(!(i>=0&&i<r.n)||r.chunks[i])return;
+  const u=d.d instanceof ArrayBuffer?new Uint8Array(d.d):d.d;
+  if(!u||u.byteLength>CH)return;
+  r.chunks[i]=u;r.got++;r.mo.file.pct=Math.round(r.got/r.n*100);
+  if(r.got<r.n){updFile(r.mo);return}
+  const blob=new Blob(r.chunks,{type:r.mime||'application/octet-stream'});
+  delete inFiles[k];
+  if(blob.size!=r.size){r.mo.file.name+=' (bozuk)';r.mo.file.done=true;updFile(r.mo);return}
+  r.mo.file.url=URL.createObjectURL(blob);r.mo.file.done=true;updFile(r.mo);
+}
+function showTyping(){
+  const now=Date.now(),n=[];
+  for(const k in typers){if(typers[k].until>now)n.push(typers[k].nm);else delete typers[k]}
+  const e=document.getElementById('typing');
+  if(e)e.textContent=n.length?n.slice(0,2).join(' ve ')+(n.length>2?' ve diğerleri':'')+' yazıyor…':'';
+}
+
+/* emoji seçici ve giriş kutusu */
+function togEmoji(p){
+  p=p||'';
+  const pop=document.getElementById(p+'emo');pop.hidden=!pop.hidden;
+  if(pop.hidden)return;
+  const t=document.getElementById(p+'etabs');
+  if(!t.innerHTML)t.innerHTML=Object.keys(EMO).map(k=>'<button data-k="'+k+'">'+k+'</button>').join('');
+  emoTab(emoCat||Object.keys(EMO)[0],p);
+}
+function emoTab(k,p){
+  p=p||'';emoCat=k;
+  document.querySelectorAll('#'+p+'etabs button').forEach(b=>b.classList.toggle('on',b.dataset.k==k));
+  document.getElementById(p+'egrid').innerHTML=EMO[k].split(' ').map(e=>'<button class="eb">'+e+'</button>').join('');
+}
+function insEmoji(e,p){
+  p=p||'';
+  const t=document.getElementById(p+'ci'),a=t.selectionStart==null?t.value.length:t.selectionStart,b=t.selectionEnd==null?a:t.selectionEnd;
+  t.value=(t.value.slice(0,a)+e+t.value.slice(b)).slice(0,2000);const q=a+e.length;
+  try{t.setSelectionRange(q,q)}catch(x){}t.focus();autoGrow(p);
+}
+function autoGrow(p){const t=document.getElementById((p||'')+'ci');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,120)+'px'}
+function bindChat(p,o){
+  const g=id=>document.getElementById(p+id),ci=g('ci'),box=g('msgs'),ch=g('chat');
+  ci.addEventListener('keydown',e=>{if(e.key=='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();o.send()}});
+  ci.addEventListener('input',()=>{autoGrow(p);o.typing(ci)});
+  ci.addEventListener('paste',e=>{const fs=Array.from((e.clipboardData&&e.clipboardData.files)||[]);if(fs.length){e.preventDefault();o.files(fs)}});
+  g('fi').addEventListener('change',e=>{o.files(Array.from(e.target.files));e.target.value=''});
+  g('etabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)emoTab(b.dataset.k,p)});
+  g('egrid').addEventListener('click',e=>{const b=e.target.closest('button');if(b)insEmoji(b.textContent,p)});
+  const hasFiles=e=>e.dataTransfer&&Array.from(e.dataTransfer.types||[]).includes('Files');
+  ch.addEventListener('dragover',e=>{if(hasFiles(e)){e.preventDefault();g('dz').hidden=false}});
+  g('dz').addEventListener('dragleave',()=>{g('dz').hidden=true});
+  ch.addEventListener('drop',e=>{if(hasFiles(e)){e.preventDefault();g('dz').hidden=true;o.files(Array.from(e.dataTransfer.files))}});
+  box.addEventListener('scroll',()=>{if(box.scrollHeight-box.scrollTop-box.clientHeight<90)g('newmsg').hidden=true});
+  g('newmsg').addEventListener('click',()=>{box.scrollTop=box.scrollHeight;g('newmsg').hidden=true});
+}
+
+/* ---------- doğrudan mesajlar ---------- */
+const DEMPTY='<div class="m" style="margin:auto;text-align:center;padding:20px;line-height:1.6">Henüz mesaj yok.<br>Mesajlar bu cihazda saklanır. Arkadaşın çevrim dışıysa, çevrim içi olunca gönderilir.</div>';
+function dmKey(c){return 'safir_dm:'+st.code+':'+c}
+function dmRKey(c){return 'safir_dmr:'+st.code+':'+c}
+function dmFriend(c){return st.friends.find(f=>f.code==c)}
+function dmGet(c){
+  if(!dms[c]){
+    let log=[],rd=0;
+    try{log=JSON.parse(localStorage.getItem(dmKey(c))||'[]')}catch(e){}
+    try{rd=Number(localStorage.getItem(dmRKey(c))||0)}catch(e){}
+    if(!Array.isArray(log))log=[];
+    log=log.filter(m=>m&&typeof m.id=='string'&&typeof m.ts=='number'&&(m.kind=='f'?m.file:typeof m.tx=='string'));
+    dms[c]={log,seen:new Set(log.map(m=>m.id)),read:rd,typing:0,files:{}};
+  }
+  return dms[c];
+}
+function dmUnread(c){const d=dmGet(c);return d.log.filter(m=>m.from==c&&m.ts>d.read).length}
+function dmSave(c){
+  const d=dms[c];if(!d)return;
+  const out=d.log.slice(-200).map(m=>m.kind=='f'?{id:m.id,from:m.from,nm:m.nm,ts:m.ts,kind:'f',file:{fid:m.file.fid,name:m.file.name,size:m.file.size,mime:'',url:'',pct:100,done:true}}:m);
+  try{localStorage.setItem(dmKey(c),JSON.stringify(out))}catch(e){}
+}
+function dmMarkRead(c){const d=dmGet(c);d.read=Date.now();try{localStorage.setItem(dmRKey(c),String(d.read))}catch(e){}}
+function dmRender(){
+  const b=document.getElementById('dmsgs'),d=dmWith&&dmGet(dmWith);if(!b)return;
+  b.innerHTML=d&&d.log.length?d.log.map((m,i)=>msgHTML(m,isCont(d.log[i-1],m))).join(''):DEMPTY;
+  b.scrollTop=b.scrollHeight;
+}
+function dmAdd(c,m,live){
+  const d=dmGet(c);m.kind=m.kind||'t';
+  if(d.seen.has(m.id))return;d.seen.add(m.id);
+  let i=d.log.length;while(i>0&&d.log[i-1].ts>m.ts)i--;d.log.splice(i,0,m);
+  if(d.log.length>300)d.log.shift();
+  if(m.kind!='f'||m.file.done)dmSave(c);
+  const view=dmWith==c;
+  if(view){
+    if(i<d.log.length-1||d.log.length==1)dmRender();
+    else{
+      const box=document.getElementById('dmsgs'),near=box.scrollHeight-box.scrollTop-box.clientHeight<90;
+      box.insertAdjacentHTML('beforeend',msgHTML(m,isCont(d.log[d.log.length-2],m)));
+      if(m.from==st.code||near)box.scrollTop=box.scrollHeight;else document.getElementById('dnewmsg').hidden=false;
+    }
+    if(m.from!=st.code&&!document.hidden)dmMarkRead(c);
+  }
+  if(live&&m.from==c){
+    if(document.hidden){unread++;document.title='('+unread+') Safir'}
+    if(document.hidden||!view){snd('msg');const f0=dmFriend(c);desk(f0?f0.name:'Safir',m.kind=='f'?'Dosya gönderdi':m.tx)}
+    if(!view){const f=dmFriend(c);toast((f?f.name:'Arkadaşın')+': '+(m.kind=='f'?'dosya gönderdi':m.tx.slice(0,60)),'Aç',()=>openDM(c))}
+    draw();
+  }
+}
+function dmSend(){
+  const c=dmWith;if(!c)return;
+  const ci=document.getElementById('dci'),tx=ci.value.trim();if(!tx)return;
+  const m={id:'d'+rnd(10),from:st.code,nm:st.name,tx:tx.slice(0,2000),ts:Date.now()},cn=conns[c];
+  if(cn&&cn.open){try{cn.send({t:'dm',id:m.id,tx:m.tx,ts:m.ts})}catch(e){m.st='p'}}else m.st='p';
+  dmAdd(c,m,true);ci.value='';ci.style.height='';
+}
+function dmFlush(c){
+  if(!dmFriend(c))return;
+  const d=dmGet(c),cn=conns[c];if(!cn||!cn.open)return;
+  let n=0;
+  d.log.forEach(m=>{if(m.st=='p'&&m.from==st.code&&m.kind!='f'){try{cn.send({t:'dm',id:m.id,tx:m.tx,ts:m.ts});delete m.st;n++}catch(e){}}});
+  if(n){dmSave(c);if(dmWith==c)dmRender()}
+}
+function dmIncoming(id,f,d){
+  const mid=String(d.id||'').slice(0,24);if(!mid)return;
+  if(!SET.perm.dms){const cn=conns[id];if(cn&&cn.open)cn.send({t:'deny',why:'dm',id:mid});return}
+  dmGet(id).typing=0;
+  dmAdd(id,{id:mid,from:id,nm:f.name,tx:String(d.tx).slice(0,2000),ts:Date.now()},true);
+}
+function dmTyping(id){dmGet(id).typing=Date.now()+3000;dmShowTyping()}
+function dmShowTyping(){
+  const e=document.getElementById('dtyping');if(!e)return;
+  const d=dmWith&&dms[dmWith],f=dmWith&&dmFriend(dmWith);
+  e.textContent=d&&f&&d.typing>Date.now()?f.name+' yazıyor…':'';
+}
+const dmUpd=(c,m)=>{if(dmWith==c){const e=document.getElementById('msg-'+m.id),b=e&&e.querySelector('.mb');if(b)b.innerHTML=fileHTML(m)}};
+async function dmSendFiles(files){
+  const c0=dmWith;if(!c0)return;
+  const cn=conns[c0];
+  if(!cn||!cn.open)return toast('Arkadaşın çevrim dışı, dosya şu an gönderilemez.');
+  for(const f of files){
+    if(f.size>MAXF){toast(f.name+' çok büyük (en fazla 25 MB).');continue}
+    const fid=rnd(10),n=Math.max(1,Math.ceil(f.size/CH));
+    const mo={id:'d'+fid,from:st.code,nm:st.name,ts:Date.now(),kind:'f',file:{fid,name:safeName(f.name),size:f.size,mime:f.type||'',url:URL.createObjectURL(f),pct:0,done:false}};
+    dmAdd(c0,mo,true);
+    cn.send({t:'dfs',fid,name:mo.file.name,size:f.size,mime:mo.file.mime,n});
+    for(let i=0;i<n;i++){
+      if(!cn.open)break;
+      const buf=await f.slice(i*CH,(i+1)*CH).arrayBuffer();
+      while(cn.dataChannel&&cn.dataChannel.bufferedAmount>1048576)await new Promise(r=>setTimeout(r,30));
+      cn.send({t:'dfc',fid,i,d:buf});
+      mo.file.pct=Math.round((i+1)/n*100);dmUpd(c0,mo);
+    }
+    mo.file.done=true;dmUpd(c0,mo);dmSave(c0);
+  }
+}
+function dFileStart(id,f,d){
+  const fid=String(d.fid||'').slice(0,20),size=Number(d.size),n=Number(d.n),dd=dmGet(id);
+  if(!fid||dd.files[fid]||!(size>=0)||size>MAXF||n!=Math.max(1,Math.ceil(size/CH))||Object.keys(dd.files).length>4)return;
+  const mime=IMG.test(String(d.mime))?String(d.mime):'';
+  const mo={id:'d'+fid+id,from:id,nm:f.name,ts:Date.now(),kind:'f',file:{fid,name:safeName(d.name),size,mime,url:'',pct:0,done:false}};
+  dd.files[fid]={chunks:new Array(n),got:0,n,size,mime,mo};dmAdd(id,mo,true);
+}
+function dFileChunk(id,d){
+  const dd=dmGet(id),fid=String(d.fid||'').slice(0,20),r=dd.files[fid];if(!r)return;
+  const i=Number(d.i);if(!(i>=0&&i<r.n)||r.chunks[i])return;
+  const u=d.d instanceof ArrayBuffer?new Uint8Array(d.d):d.d;if(!u||u.byteLength>CH)return;
+  r.chunks[i]=u;r.got++;r.mo.file.pct=Math.round(r.got/r.n*100);
+  if(r.got<r.n){dmUpd(id,r.mo);return}
+  const blob=new Blob(r.chunks,{type:r.mime||'application/octet-stream'});delete dd.files[fid];
+  if(blob.size!=r.size){r.mo.file.name+=' (bozuk)';r.mo.file.done=true;dmUpd(id,r.mo);return}
+  r.mo.file.url=URL.createObjectURL(blob);r.mo.file.done=true;dmUpd(id,r.mo);dmSave(id);
+}
+function rowClick(e,c){if(!e.target.closest('button'))openDM(c)}
+function openDM(c){
+  const f=dmFriend(c);if(!f)return;
+  dmWith=c;dmMarkRead(c);
+  document.getElementById('dmn').textContent=f.name;
+  const av=document.getElementById('dmav');av.innerHTML=esc((f.name[0]||'?').toUpperCase())+avImg(avatarOf(c));av.style.background=avc(f.name);
+  const nb=document.getElementById('dnewmsg');if(nb)nb.hidden=true;
+  sideOpen(false);dmRender();draw();
+  const ci=document.getElementById('dci');if(ci&&ci.focus)ci.focus();
+}
+function closeDM(){dmWith=null;draw()}
+function dmHead(){
+  const f=dmFriend(dmWith);if(!f){dmWith=null;return}
+  document.getElementById('dmn').textContent=f.name;
+  const c=conns[dmWith],on=!!(c&&c.open),i=info[dmWith],ir=on&&i&&i.room;
+  const s=document.getElementById('dms');s.textContent=on?(ir?'Odada: '+ir.name:'Çevrim içi'):'Çevrim dışı · mesajların çevrim içi olunca iletilir';s.className='m'+(on?' live':'');
+  const rb=document.getElementById('dmroom');rb.hidden=!room;if(room)document.getElementById('dmrn').textContent=room.name;
+  const cb=document.getElementById('dmcall'),code=dmWith;
+  if(on&&room&&!ir){cb.hidden=false;cb.innerHTML=ico('call')+'Odama çağır';cb.onclick=()=>inv(code)}
+  else if(ir&&!(room&&room.code==ir.code)){cb.hidden=false;cb.innerHTML=ico('users')+'Odasına katıl';cb.onclick=()=>{join(ir.code);closeDM()}}
+  else cb.hidden=true;
+}
+bindChat('',{send:sendCurrent,files:sendFiles,typing:ci=>{const n=Date.now();if(n-sentTy>2500&&ci.value){sentTy=n;bcast({t:'ty'})}}});
+bindChat('d',{send:dmSend,files:dmSendFiles,typing:ci=>{const n=Date.now(),c=dmWith&&conns[dmWith];if(c&&c.open&&n-dmSentTy>2500&&ci.value){dmSentTy=n;c.send({t:'dty'})}}});
+document.addEventListener('click',e=>{
+  const t=e.target,h=!t.closest;
+  if(h||!t.closest('#emo,#emobtn'))document.getElementById('emo').hidden=true;
+  if(h||!t.closest('#demo,#demobtn'))document.getElementById('demo').hidden=true;
+});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){unread=0;document.title='Safir';if(dmWith){dmMarkRead(dmWith);draw()}}});
+document.getElementById('msgs').innerHTML=EMPTY;setInterval(showTyping,1000);setInterval(dmShowTyping,1000);
+
+
+/* ---------- ayarlar, profil, izinler ---------- */
+function avatarOf(c){return c==st.code?(st.av||''):(avatars[c]||'')}
+function avImg(x){return x?'<img alt="" src="'+x+'">':''}
+function cacheAv(c,av){
+  if(!av){if(avatars[c]){delete avatars[c];try{localStorage.setItem('safir_avc',JSON.stringify(avatars))}catch(e){}}return}
+  if(typeof av!='string'||av.length>40000||!OKAV.test(av))return;
+  if(avatars[c]!==av){avatars[c]=av;try{localStorage.setItem('safir_avc',JSON.stringify(avatars))}catch(e){}}
+}
+function saveSet(){try{localStorage.setItem('safir_set:'+st.code,JSON.stringify(SET))}catch(e){}}
+function loadSet(){
+  let o=null;try{o=JSON.parse(localStorage.getItem('safir_set:'+st.code)||'null')}catch(e){}
+  Object.assign(SET,JSON.parse(JSON.stringify(DEFSET)),o||{});SET.perm=Object.assign({},DEFSET.perm,(o&&o.perm)||{});
+  let pr=null;try{pr=JSON.parse(localStorage.getItem('safir_prof:'+st.code)||'null')}catch(e){}
+  if(pr){if(typeof pr.av=='string'&&OKAV.test(pr.av))st.av=pr.av;if(pr.name)st.name=String(pr.name).slice(0,16)}
+  try{Object.assign(avatars,JSON.parse(localStorage.getItem('safir_avc')||'{}'))}catch(e){}
+  const rm=document.getElementById('rmode');if(rm)rm.value=SET.perm.room;
+  applyLook();
+}
+function saveProfile(){
+  try{
+    localStorage.setItem('safir_prof:'+st.code,JSON.stringify({av:st.av||'',name:st.name}));
+    const a=JSON.parse(localStorage.getItem(AK)||'null');if(a){a.name=st.name;localStorage.setItem(AK,JSON.stringify(a))}
+  }catch(e){}
+}
+function applyLook(){
+  const a=ACC[SET.accent]||ACC.ocean,r=document.documentElement.style;
+  r.setProperty('--a1',a[0]);r.setProperty('--a2',a[1]);r.setProperty('--a3',a[2]);r.setProperty('--a',a[1]);
+  r.setProperty('--cfs',({s:'13px',m:'14.5px',l:'16.5px'})[SET.fsize]||'14.5px');
+  document.body.classList.toggle('compact',!!SET.compact);
+}
+function refreshMe(){
+  $('#me').textContent=st.name;$('#mav').textContent=(st.name[0]||'?').toUpperCase();
+  const a=document.querySelector('.me .avt');if(a)a.style.background=avc(st.name);
+  const src=st.av||st.pic||'',p=$('#pic');
+  if(src){p.src=src;p.hidden=false}else{p.removeAttribute('src');p.hidden=true}
+}
+function bcastProf(){
+  const o={t:'prof',name:st.name,av:st.av||''};
+  Object.values(conns).forEach(c=>{try{if(c.open)c.send(o)}catch(e){}});bcast(o);
+}
+function updFriendProf(id,f,d){
+  const nm=String(d.name||'').slice(0,16);if(nm&&nm!=f.name){f.name=nm;save()}
+  cacheAv(id,d.av);draw();if(dmWith==id)dmRender();
+}
+function onDeny(id,d){
+  if(d.why=='dm')dmDenied(id,d.id);
+  else if(d.why=='req')toast('Bu kişi arkadaşlık isteği kabul etmiyor.');
+}
+function dmDenied(id,mid){
+  const d=dmGet(id);d.log.forEach(m=>{if(m.from==st.code&&(m.id==mid||m.st=='p'))m.st='x'});
+  dmSave(id);if(dmWith==id)dmRender();
+  const f=dmFriend(id);toast((f?f.name:'Bu kişi')+' doğrudan mesajları kapattı.');
+}
+
+/* oda erişimi */
+function gateJoin(c){
+  if(!room||!room.host)return;
+  const code=String(c.peer).slice(PF.length);
+  if(!CODE.test(code)){try{c.close()}catch(e){}return}
+  const reply=()=>{try{c.send({t:'members',rname:room.name,list:[{code:st.code,name:st.name}].concat(Object.keys(room.members).map(k=>({code:k,name:room.members[k].name})))})}catch(e){}};
+  const deny=why=>{try{c.send({t:'denied',why})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},400)};
+  if(room.mode=='open'||room.allowed.has(code))return reply();
+  if(room.mode=='friends'){if(dmFriend(code)){room.allowed.add(code);reply()}else deny('friends');return}
+  const f=dmFriend(code);
+  if(!room.pending.find(x=>x.code==code)){
+    room.pending.push({code,name:(f&&f.name)||c.who||'Bir kullanıcı',reply,deny});renderJoinReqs();
+    snd('call');desk('Safir','Biri odana katılmak istiyor');
+  }
+  try{c.send({t:'wait'})}catch(e){}
+  c.on('close',()=>{if(!room||!room.pending)return;const i=room.pending.findIndex(x=>x.code==code);if(i>=0){room.pending.splice(i,1);renderJoinReqs()}});
+}
+function renderJoinReqs(){
+  const el=$('#jreqs');if(!el)return;
+  el.innerHTML=room&&room.pending&&room.pending.length?room.pending.map(p=>'<div class="roombar"><span><b>'+esc(p.name)+'</b> odaya katılmak istiyor</span><button class="pill" onclick="joinDecision(\''+p.code+'\',1)">'+ico('check')+'Kabul et</button><button class="pill alt" onclick="joinDecision(\''+p.code+'\',0)">Reddet</button></div>').join(''):'';
+}
+function joinDecision(code,yes){
+  if(!room||!room.pending)return;const i=room.pending.findIndex(p=>p.code==code);if(i<0)return;
+  const p=room.pending.splice(i,1)[0];
+  if(yes){room.allowed.add(code);p.reply()}else p.deny('rejected');
+  renderJoinReqs();
+}
+
+/* ses: aygıtlar, çıkış, bildirim sesleri */
+async function getMic(){
+  const base={echoCancellation:SET.ec,noiseSuppression:SET.ns,autoGainControl:SET.agc};
+  if(SET.mic){try{return await navigator.mediaDevices.getUserMedia({audio:Object.assign({deviceId:{exact:SET.mic}},base)})}catch(e){}}
+  return await navigator.mediaDevices.getUserMedia({audio:base});
+}
+async function restartMic(){
+  if(!local||!room)return;
+  try{
+    const ns=await getMic(),t=ns.getAudioTracks()[0];t.enabled=!muted;
+    Object.values(room.members).forEach(m=>{try{const sd=m.call.peerConnection.getSenders().find(x=>x.track&&x.track.kind=='audio');if(sd)sd.replaceTrack(t)}catch(e){}});
+    local.getTracks().forEach(x=>x.stop());local=ns;delete an.me;watch('me',local);
+  }catch(e){toast('Mikrofon değiştirilemedi.')}
+}
+function applyOut(el){if(!el)return;try{el.volume=Math.max(0,Math.min(1,SET.vol/100))}catch(e){}if(SET.spk&&el.setSinkId)el.setSinkId(SET.spk).catch(()=>{})}
+function applyOutAll(){if(room)Object.values(room.members).forEach(m=>applyOut(m.el))}
+function snd(k){
+  if(!SET.notifSound)return;
+  try{
+    sndCtx=sndCtx||new (window.AudioContext||window.webkitAudioContext)();if(sndCtx.state=='suspended')sndCtx.resume();
+    const T=({msg:[[880,0,.07],[1175,.08,.09]],join:[[523,0,.08],[784,.09,.12]],leave:[[784,0,.08],[523,.09,.12]],call:[[659,0,.15],[784,.2,.15],[659,.4,.15],[784,.6,.15]]})[k]||[];
+    T.forEach(([f,t,d])=>{const o=sndCtx.createOscillator(),g=sndCtx.createGain(),n=sndCtx.currentTime;
+      o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,n+t);g.gain.linearRampToValueAtTime(.12,n+t+.01);g.gain.exponentialRampToValueAtTime(.0001,n+t+d);
+      o.connect(g);g.connect(sndCtx.destination);o.start(n+t);o.stop(n+t+d+.02)});
+  }catch(e){}
+}
+function desk(title,body){
+  if(SET.notifDesk&&window.Notification&&Notification.permission=='granted'&&document.hidden){try{new Notification(title,{body:String(body).slice(0,120),icon:I192})}catch(e){}}
+}
+
+/* ayarlar penceresi */
+let curSP='acc',mt=null;
+const sw=(k,on)=>'<label class="sw"><input type="checkbox"'+(on?' checked':'')+' onchange="setOpt(\''+k+'\',this.checked)"><i></i></label>';
+const srow=(t,d,ctl)=>'<div class="srow"><div class="tx"><b>'+t+'</b><span class="m">'+d+'</span></div>'+(ctl||'')+'</div>';
+function pcard(){
+  const src=st.av||st.pic;
+  return '<div class="pcard"><div class="pbanner"></div><div class="pbody"><div class="avt" style="--s:84px;background:'+avc(st.name)+'">'+esc((st.name[0]||'?').toUpperCase())+(src?'<img alt="" src="'+esc(src)+'">':'')+'</div><div class="pn"><b>'+esc(st.name)+'</b><span class="m">Arkadaş kodu: <span class="mono">'+esc(st.code)+'</span></span></div></div></div>';
+}
+function pgAcc(){
+  return '<h2>Hesabım</h2>'+pcard()+
+    srow('Görünen ad',esc(st.name),'<button class="pill alt" onclick="sPage(\'prof\')">Düzenle</button>')+
+    srow('Arkadaş kodu','Arkadaşların seni bu kodla ekler. Kod hesabına bağlıdır, her cihazda aynı kalır.','<button class="pill" onclick="copy(st.code)">'+ico('copy')+'Kopyala</button>')+
+    '<h3 class="sh2">Tehlikeli bölge</h3>'+
+    srow('Bu cihazdaki verileri sil','Arkadaş listen, doğrudan mesajların, ayarların ve profil fotoğrafın bu cihazdan silinir. Hesabın silinmez.','<button class="pill dng" onclick="wipeLocal()">Verileri sil</button>')+
+    srow('Çıkış yap','Bu cihazdaki oturumu kapatır.','<button class="pill dng" onclick="logout()">Çıkış yap</button>');
+}
+function pgProf(){
+  return '<h2>Profil</h2><div class="pgrid"><div>'+
+    '<div class="fld"><label>Görünen ad</label><div class="row"><input id="pname" maxlength="16" value="'+esc(st.name)+'" style="flex:1"><button class="pill" onclick="saveName()">Kaydet</button></div></div>'+
+    '<div class="fld"><label>Profil fotoğrafı</label><div class="row"><button class="pill" onclick="document.getElementById(\'pfile\').click()">'+ico('clip')+'Fotoğraf yükle</button>'+(st.av?'<button class="pill alt" onclick="rmAvatar()">Kaldır</button>':'')+'</div>'+
+    '<input type="file" id="pfile" accept="image/png,image/jpeg,image/webp,image/gif" hidden onchange="pickAvatar(this.files[0]);this.value=\'\'">'+
+    '<div class="hint" style="margin-top:8px">Fotoğraf 128×128 boyutuna küçültülür. Sunucuya yüklenmez, yalnızca arkadaşlarına ve bulunduğun odadaki kişilere doğrudan iletilir.</div></div>'+
+    '</div><div><div class="m" style="margin-bottom:8px;letter-spacing:.6px">ÖNİZLEME</div>'+pcard()+'</div></div>';
+}
+function pgPriv(){
+  const sel=(k,o,cur)=>'<select onchange="setOpt(\''+k+'\',this.value)">'+o.map(x=>'<option value="'+x[0]+'"'+(x[0]==cur?' selected':'')+'>'+x[1]+'</option>').join('')+'</select>';
+  return '<h2>Gizlilik ve izinler</h2>'+
+    srow('Arkadaşlık isteklerine izin ver','Kapalıyken kimse sana arkadaşlık isteği gönderemez. Gönderen kişiye "kabul etmiyor" bildirimi gider.',sw('perm.friends',SET.perm.friends))+
+    srow('Doğrudan mesajlara izin ver','Kapalıyken arkadaşların bile sana doğrudan mesaj gönderemez.',sw('perm.dms',SET.perm.dms))+
+    srow('Odalarıma kimler girebilir','Yeni oda kurarken varsayılan seçim. "Onayımla" seçiliyse girmek isteyenler sen kabul edene kadar bekler.',sel('perm.room',[['open','Herkes (oda koduyla)'],['friends','Yalnızca arkadaşlarım'],['approve','Onayımla girsin']],SET.perm.room))+
+    srow('Mikrofon izni','<span id="micperm">Kontrol ediliyor…</span> Mikrofon izni verilmeden sesli odalara girilemez.','<button class="pill" onclick="askMic()">İzni iste</button>')+
+    '<div class="hint" style="margin-top:14px">Oda kuralı odayı kuran kişi tarafından uygulanır.</div>';
+}
+function pgVoice(){
+  const sink=window.HTMLMediaElement&&('setSinkId' in HTMLMediaElement.prototype);
+  return '<h2>Ses</h2>'+
+    srow('Giriş aygıtı (mikrofon)','Odaya girerken kullanılacak mikrofon. Odadayken değiştirirsen hemen uygulanır.','<select id="selmic" onchange="setOpt(\'mic\',this.value)"><option value="">Varsayılan</option></select>')+
+    srow('Çıkış aygıtı (hoparlör)',sink?'Diğer kişilerin sesinin çalınacağı aygıt.':'Bu tarayıcı çıkış aygıtı seçmeyi desteklemiyor.','<select id="selspk" onchange="setOpt(\'spk\',this.value)"'+(sink?'':' disabled')+'><option value="">Varsayılan</option></select>')+
+    srow('Çıkış ses seviyesi','Diğer kişilerin ses seviyesi: <b id="volv">'+SET.vol+'%</b>','<input type="range" min="0" max="100" value="'+SET.vol+'" oninput="document.getElementById(\'volv\').textContent=this.value+\'%\';setOpt(\'vol\',+this.value)">')+
+    srow('Mikrofon testi','Konuşunca çubuk hareket etmeli.','<div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end"><button id="mtbtn" class="pill" onclick="micTest()">Mikrofonu test et</button><div class="meter"><i id="mtbar"></i></div></div>')+
+    srow('Konuşma algılama hassasiyeti','Kimin konuştuğunu gösteren yeşil halkanın hassasiyeti: <b id="sensv">'+SET.sens+'</b> (düşük sayı = daha hassas)','<input type="range" min="4" max="50" value="'+SET.sens+'" oninput="document.getElementById(\'sensv\').textContent=this.value;setOpt(\'sens\',+this.value)">')+
+    '<h3 class="sh2">Ses işleme</h3>'+
+    srow('Gürültü bastırma','Klavye, fan gibi arka plan seslerini azaltır.',sw('ns',SET.ns))+
+    srow('Yankı engelleme','Hoparlörden gelen sesin mikrofona karışmasını azaltır.',sw('ec',SET.ec))+
+    srow('Otomatik ses ayarı','Mikrofon seviyesini otomatik dengeler.',sw('agc',SET.agc));
+}
+function pgNotif(){
+  const ps=window.Notification?({granted:'verildi',denied:'reddedildi',default:'henüz sorulmadı'})[Notification.permission]:'';
+  return '<h2>Bildirimler</h2>'+
+    srow('Bildirim sesleri','Yeni mesaj, oda girişi ve çıkışı ile arama için kısa sesler.',sw('notifSound',SET.notifSound))+
+    srow('Masaüstü bildirimleri',window.Notification?'Sekme arka plandayken yeni mesaj ve davetlerde sistem bildirimi gönderir. İzin: '+ps+'.':'Bu tarayıcı bildirimleri desteklemiyor.',sw('notifDesk',SET.notifDesk))+
+    '<div class="row" style="margin-top:16px"><span class="m">Dene:</span><button class="pill alt" onclick="snd(\'msg\')">Mesaj sesi</button><button class="pill alt" onclick="snd(\'join\')">Giriş sesi</button><button class="pill alt" onclick="snd(\'call\')">Arama sesi</button></div>';
+}
+function pgLook(){
+  return '<h2>Görünüm</h2><h3 class="sh2" style="margin-top:0">Vurgu rengi</h3><div class="swt">'+
+    Object.keys(ACC).map(k=>'<button title="'+k+'" class="'+(SET.accent==k?'on':'')+'" style="background:linear-gradient(135deg,'+ACC[k][0]+','+ACC[k][2]+')" onclick="setOpt(\'accent\',\''+k+'\')"></button>').join('')+'</div>'+
+    srow('Sohbet yazı boyutu','Mesajların yazı boyutu.','<div class="seg" style="width:240px;grid-template-columns:repeat(3,1fr)">'+[['s','Küçük'],['m','Normal'],['l','Büyük']].map(x=>'<button class="'+(SET.fsize==x[0]?'on':'')+'" onclick="setOpt(\'fsize\',\''+x[0]+'\')">'+x[1]+'</button>').join('')+'</div>')+
+    srow('Sıkışık görünüm','Mesajlar ve arkadaş listesi daha az boşlukla gösterilir.',sw('compact',SET.compact));
+}
+function pgAdv(){
+  return '<h2>Gelişmiş</h2>'+
+    srow('Bağlantı durumu','Aracı sunucu: <b>'+esc($('#st').textContent)+'</b>','')+
+    '<h3 class="sh2">Bağlantı ayarları (TURN)</h3><div class="hint" style="margin:6px 0 10px;line-height:1.5">Farklı ağlardaki (ör. mobil veri) arkadaşlarla bağlanamıyorsan gerekir. Ücretsiz metered.ca hesabından aldığın TURN kullanıcı adı ve şifresini yaz. Arkadaşların da aynısını girmeli. Kaydedince sayfa yenilenir.</div>'+
+    '<div class="row"><input id="tu" placeholder="TURN kullanıcı adı" style="flex:1"><input id="tk" type="password" placeholder="TURN şifresi" style="flex:1"><button class="pill" onclick="saveTurn()">Kaydet</button></div>'+
+    '<h3 class="sh2">Bağlantı bilgisi</h3><pre id="dbg" style="white-space:pre-wrap;font-size:11px;color:var(--m);max-height:220px;overflow:auto;margin:6px 0">'+esc(dbg.join('\n'))+'</pre><button class="pill alt" onclick="copy(dbg.join(\'\\n\'))">'+ico('copy')+'Kopyala</button>'+
+    '<h3 class="sh2">Hakkında</h3><div class="hint">Safir · sesli ve yazılı sohbet. Sesler, mesajlar ve dosyalar cihazlar arasında doğrudan iletilir.</div>';
+}
+const SPAGES={acc:['Hesabım',pgAcc],prof:['Profil',pgProf],priv:['Gizlilik ve izinler',pgPriv],voice:['Ses',pgVoice],notif:['Bildirimler',pgNotif],look:['Görünüm',pgLook],adv:['Gelişmiş',pgAdv]};
+function renderNav(){
+  const b=k=>'<button class="sn'+(curSP==k?' on':'')+'" onclick="sPage(\''+k+'\')">'+SPAGES[k][0]+'</button>';
+  $('#snav').innerHTML='<div class="sg">KULLANICI AYARLARI</div>'+b('acc')+b('prof')+b('priv')+'<div class="ssep"></div><div class="sg">UYGULAMA AYARLARI</div>'+b('voice')+b('notif')+b('look')+b('adv')+
+    '<div class="ssep"></div><button class="sn dg" onclick="logout()">Çıkış yap</button><div class="sver">Safir</div>';
+}
+function sPage(k){
+  if(!SPAGES[k])k='acc';
+  stopMicTest();curSP=k;renderNav();$('#spc').innerHTML=SPAGES[k][1]();
+  if(k=='voice')fillDevices();
+  if(k=='priv')permStatus();
+  if(k=='adv'){try{const t=JSON.parse(localStorage.getItem('safir_turn')||'null');if(t){$('#tu').value=t.u;$('#tk').value=t.k}}catch(e){}}
+}
+function openSettings(k){sideOpen(false);$('#settings').hidden=false;sPage(k||curSP)}
+function closeSettings(){stopMicTest();$('#settings').hidden=true}
+function setOpt(k,v){
+  const a=k.split('.');if(a.length==2)SET[a[0]][a[1]]=v;else SET[k]=v;saveSet();
+  if(k=='accent'||k=='fsize'||k=='compact')applyLook();
+  if(k=='vol'||k=='spk')applyOutAll();
+  if(k=='mic'||k=='ns'||k=='ec'||k=='agc'){restartMic();if(mt){stopMicTest();micTest()}}
+  if(k=='perm.room'){const r=document.getElementById('rmode');if(r)r.value=v}
+  if(k=='notifDesk'&&v){
+    if(!window.Notification){toast('Bu tarayıcı bildirimleri desteklemiyor.');SET.notifDesk=false;saveSet();sPage('notif');return}
+    Notification.requestPermission().then(r=>{if(r!='granted'){toast('Bildirim izni verilmedi.');SET.notifDesk=false;saveSet()}sPage('notif')});
+  }
+  if(k=='accent'||k=='fsize')sPage(curSP);
+}
+async function fillDevices(){
+  try{
+    const d=await navigator.mediaDevices.enumerateDevices();
+    const fill=(id,kind,cur)=>{const el=document.getElementById(id);if(!el)return;const l=d.filter(x=>x.kind==kind);
+      el.innerHTML='<option value="">Varsayılan</option>'+l.map((x,i)=>'<option value="'+esc(x.deviceId)+'"'+(x.deviceId==cur?' selected':'')+'>'+esc(x.label||(kind=='audioinput'?'Mikrofon ':'Hoparlör ')+(i+1))+'</option>').join('')};
+    fill('selmic','audioinput',SET.mic);fill('selspk','audiooutput',SET.spk);
+  }catch(e){}
+}
+async function permStatus(){
+  const e=document.getElementById('micperm');if(!e)return;
+  try{const r=await navigator.permissions.query({name:'microphone'});e.textContent=({granted:'İzin verildi.',denied:'Reddedildi, tarayıcı ayarlarından açmalısın.',prompt:'Henüz sorulmadı.'})[r.state]||r.state;r.onchange=permStatus}
+  catch(x){e.textContent='Durum okunamadı.'}
+}
+async function askMic(){
+  try{const s=await navigator.mediaDevices.getUserMedia({audio:true});s.getTracks().forEach(t=>t.stop());toast('Mikrofon izni verildi.')}catch(e){toast('Mikrofon izni verilmedi.')}
+  permStatus();
+}
+async function micTest(){
+  if(mt){stopMicTest();return}
+  try{
+    const s=await getMic(),ac=new (window.AudioContext||window.webkitAudioContext)(),a=ac.createAnalyser();a.fftSize=256;ac.createMediaStreamSource(s).connect(a);
+    const b=new Uint8Array(128);mt={s,ac,raf:0};
+    const loop=()=>{if(!mt)return;a.getByteFrequencyData(b);const v=b.reduce((x,y)=>x+y,0)/128,el=document.getElementById('mtbar');if(el)el.style.width=Math.min(100,v*2.2)+'%';mt.raf=requestAnimationFrame(loop)};loop();
+    const bt=document.getElementById('mtbtn');if(bt)bt.textContent='Testi durdur';
+  }catch(e){toast('Mikrofon açılamadı. İzin verdiğinden emin ol.')}
+}
+function stopMicTest(){
+  if(!mt)return;
+  try{cancelAnimationFrame(mt.raf);mt.s.getTracks().forEach(t=>t.stop());mt.ac.close()}catch(e){}
+  mt=null;const bt=document.getElementById('mtbtn');if(bt)bt.textContent='Mikrofonu test et';const el=document.getElementById('mtbar');if(el)el.style.width='0';
+}
+function saveName(){
+  const n=($('#pname').value||'').trim().slice(0,16);
+  if(!n)return toast('Görünen ad boş olamaz.');
+  st.name=n;saveProfile();refreshMe();bcastProf();draw();if(room)drawRoom();sPage('prof');toast('Görünen adın güncellendi.');
+}
+async function pickAvatar(f){
+  if(!f)return;
+  if(!/^image\//.test(f.type)||f.size>8*1048576)return toast('Lütfen 8 MB altında bir resim seç.');
+  try{
+    const bmp=await createImageBitmap(f),sz=Math.min(bmp.width,bmp.height),cv=document.createElement('canvas');cv.width=cv.height=128;
+    const cx=cv.getContext('2d');cx.fillStyle='#1b2440';cx.fillRect(0,0,128,128);
+    cx.drawImage(bmp,(bmp.width-sz)/2,(bmp.height-sz)/2,sz,sz,0,0,128,128);
+    let q=.85,url=cv.toDataURL('image/jpeg',q);
+    while(url.length>30000&&q>.4){q-=.1;url=cv.toDataURL('image/jpeg',q)}
+    if(!OKAV.test(url)||url.length>40000)return toast('Fotoğraf işlenemedi.');
+    st.av=url;saveProfile();refreshMe();bcastProf();draw();if(room){drawRoom();renderChat()}sPage('prof');toast('Profil fotoğrafın güncellendi.');
+  }catch(e){toast('Fotoğraf okunamadı.')}
+}
+function rmAvatar(){st.av='';saveProfile();refreshMe();bcastProf();draw();if(room){drawRoom();renderChat()}sPage('prof')}
+function wipeLocal(){
+  if(!confirm('Bu cihazdaki arkadaş listen, mesajların, ayarların ve profil fotoğrafın silinecek. Devam edilsin mi?'))return;
+  try{
+    const c=st.code,keys=[];for(let i=0;i<localStorage.length;i++)keys.push(localStorage.key(i));
+    keys.forEach(k=>{if(k&&(k.indexOf('safir_dm:'+c)==0||k.indexOf('safir_dmr:'+c)==0||k=='safir_set:'+c||k=='safir_prof:'+c||k=='sesoda2f:'+c||k=='safir_avc'))localStorage.removeItem(k)});
+  }catch(e){}
+  location.reload();
+}
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&!$('#settings').hidden)closeSettings()});
+
+/* ---------- ses ve odalar ---------- */
+let ctx;
+function watch(id,s){
+  try{
+    ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();if(ctx.state=='suspended')ctx.resume();
+    const a=ctx.createAnalyser();a.fftSize=256;ctx.createMediaStreamSource(s).connect(a);an[id]=a;
+  }catch(e){}
+}
+setInterval(()=>{
+  const b=new Uint8Array(128);
+  for(const id in an){an[id].getByteFrequencyData(b);const v=b.reduce((x,y)=>x+y,0)/128;
+    const t=document.getElementById('t-'+id);if(t)t.classList.toggle('sp',v>(SET.sens||18))}
+},120);
+
+async function mic(){
+  if(local)return true;
+  try{
+    local=await getMic();
+    local.getAudioTracks()[0].enabled=!muted;watch('me',local);
+    try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>wl=l).catch(()=>{})}catch(e){}
+    return true;
+  }catch(e){toast(navigator.mediaDevices?'Mikrofon izni gerekli. Tarayıcı ayarlarından izin ver.':'Mikrofon için sayfa https:// adresinden açılmalı.');return false}
+}
+async function create(){
+  if(room)leave();
+  if(!peer||!peer.open)return toast('Önce aracı sunucuya bağlanmalısın.');
+  if(!await mic())return;
+  const code=rnd(6),name=$('#rname').value.trim().slice(0,30)||st.name+' odası';
+  room={code,name,host:true,members:{},mode:($('#rmode')&&$('#rmode').value)||SET.perm.room||'open',allowed:new Set(),pending:[]};
+  const rp=room.rpeer=new Peer(RPF+code,icecfg());
+  rp.on('open',()=>{log('oda açıldı: '+code);presence()});
+  rp.on('error',e=>{log('oda hatası: '+e.type);if(e.type=='unavailable-id'){toast('Kod çakıştı, tekrar dene.');leave()}});
+  rp.on('connection',c=>{
+    c.on('data',d=>{if(d&&d.t=='who')c.who=String(d.name||'').slice(0,16)});
+    c.on('open',()=>setTimeout(()=>gateJoin(c),150));
+  });
+  draw();
+}
+async function join(code){
+  code=String(code).trim().toLowerCase();
+  if(!RC.test(code))return toast('Oda kodu 6 karakter olmalı.');
+  if(room&&room.code==code)return;
+  if(room)leave();
+  if(!peer||!peer.open)return toast('Önce aracı sunucuya bağlanmalısın.');
+  if(!await mic())return;
+  joining=true;jTry=0;room={code,name:'Oda '+code,host:false,members:{}};
+  draw();connectRoom();
+}
+function connectRoom(){
+  if(!room||!joining)return;
+  const code=room.code,c=peer.connect(RPF+code);
+  c.on('open',()=>{try{c.send({t:'who',name:st.name})}catch(e){}});
+  clearTimeout(jTimer);
+  jTimer=setTimeout(()=>{if(joining&&room&&room.code==code)fail('Odaya bağlanılamadı. Ağın doğrudan bağlantıyı engelliyor olabilir, Bağlantı ayarlarına TURN bilgisi gir.')},15000);
+  c.on('data',d=>{
+    if(!room||room.code!=code)return;
+    if(d.t=='wait'){clearTimeout(jTimer);jTimer=setTimeout(()=>{if(joining&&room&&room.code==code)fail('Oda sahibi yanıt vermedi.')},90000);toast('Oda sahibinin onayı bekleniyor…');return}
+    if(d.t=='denied'){fail(d.why=='friends'?'Bu oda yalnızca oda sahibinin arkadaşlarına açık.':'Oda sahibi katılmana izin vermedi.');return}
+    if(d.t!='members')return;
+    clearTimeout(jTimer);joining=false;room.name=String(d.rname||room.name).slice(0,30);
+    log('oda üyeleri alındı: '+(d.list||[]).length);
+    (d.list||[]).forEach(m=>{if(CODE.test(m.code)&&m.code!=st.code)callPeer(m.code,String(m.name).slice(0,16))});
+    c.close();presence();draw();
+  });
+  c.on('error',e=>log('oda bağlantı hatası: '+(e.type||e)));
+}
+function roomRetry(){
+  if(++jTry<4){log('oda henüz hazır değil, tekrar deneniyor ('+jTry+')');setTimeout(connectRoom,2000)}
+  else fail('Oda bulunamadı. Kodu kontrol et ya da oda sahibi çıkmış olabilir.');
+}
+function fail(msg){log(msg);toast(msg);leave()}
+function callPeer(code,name){
+  const c=peer.call(PF+code,local,{metadata:{name:st.name}});addMember(code,name,c);openChat(code);
+}
+function addMember(code,name,c){
+  if(!room)return;
+  const old=room.members[code];if(old&&old.call!==c)try{old.call.close()}catch(e){}
+  const m=room.members[code]={name,call:c};
+  const iv=setInterval(()=>{
+    const pc=c.peerConnection;if(!pc)return;clearInterval(iv);
+    pc.addEventListener('iceconnectionstatechange',()=>{
+      log(name+' bağlantı durumu: '+pc.iceConnectionState);
+      if(pc.iceConnectionState=='failed')toast(name+' ile doğrudan bağlantı kurulamadı. Sol alttaki Bağlantı ayarlarına TURN bilgisi gir.');
+    });
+  },200);
+  setTimeout(()=>clearInterval(iv),5000);
+  c.on('stream',s=>{
+    if(!m.el){m.el=new Audio();m.el.autoplay=true}
+    m.el.srcObject=s;m.el.muted=deaf;applyOut(m.el);watch(code,s);log(name+' sesi geldi');if(!m.joined){m.joined=1;sys(name+' odaya katıldı');snd('join')}draw();
+  });
+  c.on('close',()=>{if(room&&room.members[code]===m){delete room.members[code];delete an[code];sys(name+' odadan ayrıldı');snd('leave');closeChat(code);draw()}});
+  c.on('error',e=>{log('arama hatası '+name+': '+(e.type||e));try{c.close()}catch(x){}});
+  draw();
+}
+function presence(){
+  const r=myRoom();Object.keys(conns).forEach(k=>{if(conns[k].open)conns[k].send({t:'presence',room:r})});draw();
+}
+function leave(){
+  if(room){
+    Object.values(room.members).forEach(m=>{try{m.call.close()}catch(e){}if(m.el)m.el.srcObject=null});
+    if(room.rpeer)room.rpeer.destroy();
+  }
+  chatReset();
+  room=null;joining=false;clearTimeout(jTimer);
+  if(local){local.getTracks().forEach(t=>t.stop());local=null}
+  if(wl){wl.release().catch(()=>{});wl=null}
+  for(const k in an)delete an[k];
+  presence();
+}
+function mute(){
+  muted=!muted;if(!muted&&deaf)setDeaf(false);
+  if(local)local.getAudioTracks()[0].enabled=!muted;btns();
+}
+function deafen(){setDeaf(!deaf);muted=deaf;if(local)local.getAudioTracks()[0].enabled=!muted;btns()}
+function setDeaf(v){deaf=v;if(room)Object.values(room.members).forEach(m=>{if(m.el)m.el.muted=deaf})}
+function btns(){
+  const b=$('#bm'),d=$('#bd');
+  b.innerHTML=ico(muted?'micoff':'mic')+'<span>Mikrofon</span>';b.className='cb'+(muted?' off':'');b.title=muted?'Mikrofonu aç':'Mikrofonu kapat';
+  d.innerHTML=ico(deaf?'hpoff':'hp')+'<span>Kulaklık</span>';d.className='cb'+(deaf?' off':'');d.title=deaf?'Kulaklığı aç':'Kulaklığı kapat';
+}
+function drawRoom(){
+  $('#lobby').hidden=!!room||!!dmWith;$('#inroom').hidden=!room||!!dmWith;$('#dmv').hidden=!dmWith;
+  if(!room)return;
+  $('#rt').textContent=room.name;$('#rc').textContent=room.code;
+  const n=Object.keys(room.members).length+1;$('#rcnt').textContent=n+' kişi odada'+(room.host&&room.mode=='friends'?' · yalnızca arkadaşlar':room.host&&room.mode=='approve'?' · onay gerekli':'');
+  const tile=(id,nm,me)=>'<div class="tile" id="t-'+id+'"><div class="av" style="background:'+avc(nm)+'">'+esc((nm[0]||'?').toUpperCase())+avImg(avatarOf(id=='me'?st.code:id))+'</div><div class="tn">'+esc(nm)+(me?' <span class="m">(sen)</span>':'')+'</div></div>';
+  $('#grid').innerHTML=tile('me',st.name,1)+Object.keys(room.members).map(k=>tile(k,room.members[k].name)).join('');
+  if(joining&&!Object.keys(room.members).length)$('#grid').innerHTML+='<div class="m" style="align-self:center">Odaya bağlanılıyor…</div>';
+}
+function sideOpen(o){document.body.classList.toggle('sideopen',o)}
+(function uiInit(){
+  document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#side [data-close]'))sideOpen(false)});
+  document.addEventListener('keydown',e=>{
+    if(e.key!='Enter'||e.isComposing||e.shiftKey)return;
+    const id=e.target&&e.target.id;
+    if(id=='lem'||id=='lpw')emLogin();
+    else if(id=='dn'||id=='sem'||id=='spw'||id=='spw2')emSignup();
+    else if(id=='fc')addByCode();
+    else if(id=='rname')create();
+    else if(id=='rcode')join(e.target.value);
+  });
+  const stEl=$('#st'),avEl=document.querySelector('.me .avt');
+  if(window.MutationObserver&&stEl&&avEl)new MutationObserver(()=>avEl.classList.toggle('on',stEl.textContent=='çevrim içi')).observe(stEl,{childList:true,characterData:true,subtree:true});
+})();
+btns();
+addEventListener('pagehide',()=>{try{peer&&peer.destroy()}catch(e){}});
+if(location.hostname=='localhost')setInterval(()=>fetch('/ping').catch(()=>{}),4000);
+</script>
+</body>
+</html>
